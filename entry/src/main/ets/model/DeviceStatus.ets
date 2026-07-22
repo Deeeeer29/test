@@ -1,7 +1,17 @@
 export interface DeviceStatus {
-  phoneAvailable: boolean;
-  earphoneConnected: boolean;
-  aiServiceAvailable: boolean;
-  microphoneActive: boolean;
-  lastCheckTime: string;
+  phone: {
+    isAvailable: boolean;
+    microphonePermission: boolean;
+    batteryLevel: number;
+  };
+  headphone: {
+    isConnected: boolean;
+    isAvailable: boolean;
+    type?: 'wired' | 'wireless';
+  };
+  aiService: {
+    isAvailable: boolean;
+    mode: 'local' | 'cloud' | 'hybrid';
+    status: 'idle' | 'processing' | 'error';
+  };
 }

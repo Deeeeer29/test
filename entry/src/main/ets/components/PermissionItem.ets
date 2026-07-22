@@ -1,4 +1,5 @@
 import { AppTheme } from '../common/theme/AppTheme';
+import { AppLanguage, I18n } from '../common/i18n/I18n';
 import { StatusBadge } from './StatusBadge';
 
 @Component
@@ -7,6 +8,7 @@ export struct PermissionItem {
   @Prop title: string;
   @Prop reason: string;
   @Prop isEnabled: boolean;
+  @Prop language: AppLanguage = 'zh';
   onToggle: (title: string) => void = (title: string): void => {};
 
   build() {
@@ -16,7 +18,7 @@ export struct PermissionItem {
         Text(this.title).fontSize(15).fontWeight(FontWeight.Medium).fontColor(AppTheme.primaryText)
         Text(this.reason).margin({ top: 4 }).fontSize(12).fontColor(AppTheme.secondaryText)
       }.alignItems(HorizontalAlign.Start).layoutWeight(1)
-      StatusBadge({ label: this.isEnabled ? 'On' : 'Off', type: this.isEnabled ? 'success' : 'warning' })
+      StatusBadge({ label: this.isEnabled ? I18n.t('on', this.language) : I18n.t('off', this.language), type: this.isEnabled ? 'success' : 'warning' })
       Toggle({ type: ToggleType.Switch, isOn: this.isEnabled }).margin({ left: 8 }).onChange((): void => this.onToggle(this.title))
     }
     .width('100%')

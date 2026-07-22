@@ -1,4 +1,5 @@
-export type MeetingStatus = 'ready' | 'preparing' | 'waiting' | 'completed';
+export type MeetingStatus = 'pending' | 'in_progress' | 'completed' | 'cancelled';
+export type PreparationStatus = 'not_started' | 'preparing' | 'ready';
 
 export interface Meeting {
   id: string;
@@ -6,10 +7,9 @@ export interface Meeting {
   startTime: string;
   endTime: string;
   location: string;
-  attendees: string[];
-  objective: string;
+  participants: string[];
+  goal: string;
   status: MeetingStatus;
-  preparedDocumentCount: number;
-  predictedQuestionCount: number;
-  preparationProgress: number;
+  preparationStatus: PreparationStatus;
+  aiAssistedCount: number;
 }

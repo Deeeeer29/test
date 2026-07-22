@@ -3,7 +3,6 @@ import { MeetingSummary } from '../model/MeetingSummary';
 import { mockDocuments } from '../mock/MockDocuments';
 import { mockMeetings } from '../mock/MockMeetings';
 import { mockQuestions } from '../mock/MockQuestions';
-import { mockSummary } from '../mock/MockSummaries';
 import { MeetingPreparation, MeetingService } from './MeetingService';
 import { MockStorageService } from './MockStorageService';
 
@@ -14,10 +13,14 @@ export class MockMeetingService implements MeetingService {
 
   getMeetingById(id: string): Meeting {
     const matched: Meeting | undefined = mockMeetings.find((item: Meeting) => item.id === id);
-    return matched || mockMeetings[0];
+    if (!matched) {
+      throw new Error(`Meeting not found: ${id}`);
+    }
+    return matched;
   }
 
   getMeetingPreparation(id: string): MeetingPreparation {
+    this.getMeetingById(id);
     return {
       documents: mockDocuments,
       questions: mockQuestions,
@@ -36,10 +39,6 @@ export class MockMeetingService implements MeetingService {
   }
 
   getMeetingHistory(): MeetingSummary[] {
-    const history: MeetingSummary[] = MockStorageService.getMeetingHistory();
-    if (history.length === 0) {
-      return [mockSummary];
-    }
-    return history;
+    return MockStorageService.getMeetingHistory();
   }
 }

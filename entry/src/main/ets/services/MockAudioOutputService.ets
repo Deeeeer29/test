@@ -1,5 +1,7 @@
 import { DeviceStatus } from '../model/DeviceStatus';
 import { AudioOutputService } from './AudioOutputService';
+import { I18n } from '../common/i18n/I18n';
+import { MockStorageService } from './MockStorageService';
 
 export class MockAudioOutputService implements AudioOutputService {
   getEarphoneStatus(): DeviceStatus {
@@ -8,17 +10,17 @@ export class MockAudioOutputService implements AudioOutputService {
       earphoneConnected: true,
       aiServiceAvailable: true,
       microphoneActive: false,
-      lastCheckTime: '刚刚'
+      lastCheckTime: MockStorageService.getLanguage() === 'zh' ? '刚刚' : 'Just now'
     };
   }
 
   simulateEarphonePlayback(text: string): string {
-    return `正在模拟播报：${text}`;
+    return I18n.playbackMessage(text, MockStorageService.getLanguage());
   }
 
   stopSimulatedPlayback(): void {}
 
   testEarphonePlayback(): string {
-    return '耳机模拟播报测试完成';
+    return I18n.testPlaybackMessage(MockStorageService.getLanguage());
   }
 }

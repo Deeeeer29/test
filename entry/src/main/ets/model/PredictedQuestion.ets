@@ -1,8 +1,9 @@
 export interface PredictedQuestion {
   id: string;
-  content: string;
-  category: string;
+  meetingId: string;
+  question: string;
   priority: 'high' | 'medium' | 'low';
-  selected: boolean;
-  preparedAnswerId: string;
+  preGeneratedAnswer?: string;
+  category: string;
+  selected?: boolean;
 }

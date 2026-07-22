@@ -1,4 +1,12 @@
 import { describe, beforeAll, beforeEach, afterEach, afterAll, it, expect } from '@ohos/hypium';
+import { AnswerBundle, AnswerTone } from '../main/ets/model/AnswerBundle';
+import { MeetingSummary } from '../main/ets/model/MeetingSummary';
+import { TranscriptItem } from '../main/ets/model/TranscriptItem';
+import { I18n } from '../main/ets/common/i18n/I18n';
+import { MockAIAnswerService } from '../main/ets/services/MockAIAnswerService';
+import { MockMeetingService } from '../main/ets/services/MockMeetingService';
+import { MockStorageService } from '../main/ets/services/MockStorageService';
+import { MockTranscriptService } from '../main/ets/services/MockTranscriptService';
 
 export default function localUnitTest() {
   describe('localUnitTest', () => {
@@ -28,6 +36,103 @@ export default function localUnitTest() {
       // Defines a variety of assertion methods, which are used to declare expected boolean conditions.
       expect(a).assertContain(b);
       expect(a).assertEqual(a);
+    });
+    it('answerToneVariants', 0, () => {
+      const service: MockAIAnswerService = new MockAIAnswerService();
+      const tones: AnswerTone[] = ['简洁', '专业', '委婉', '强势'];
+      const answers: AnswerBundle[] = tones.map((tone: AnswerTone): AnswerBundle => service.generateAnswer('progress?', tone));
+
+      expect(answers[0].tone).assertEqual('简洁');
+      expect(answers[1].tone).assertEqual('专业');
+      expect(answers[2].tone).assertEqual('委婉');
+      expect(answers[3].tone).assertEqual('强势');
+      expect(answers[0].immediateAnswer === answers[1].immediateAnswer).assertEqual(false);
+      expect(answers[1].immediateAnswer === answers[2].immediateAnswer).assertEqual(false);
+      expect(answers[2].immediateAnswer === answers[3].immediateAnswer).assertEqual(false);
+    });
+    it('answerToneChangeKeepsDuration', 0, () => {
+      const service: MockAIAnswerService = new MockAIAnswerService();
+      const longAnswer: AnswerBundle = service.changeAnswerDuration(service.generateAnswer('progress?', '专业'), '60s');
+      const softLongAnswer: AnswerBundle = service.changeAnswerTone(longAnswer, '委婉');
+
+      expect(softLongAnswer.tone).assertEqual('委婉');
+      expect(softLongAnswer.durationMode).assertEqual('60s');
+      expect(softLongAnswer.keyPoints.length > longAnswer.keyPoints.slice(0, 3).length).assertEqual(true);
+    });
+    it('languageTextSwitchesBetweenChineseAndEnglish', 0, () => {
+      const service: MockAIAnswerService = new MockAIAnswerService();
+      const answer: AnswerBundle = service.generateAnswer('progress?', '专业');
+
+      expect(I18n.t('settings', 'zh')).assertEqual('系统设置');
+      expect(I18n.t('settings', 'en')).assertEqual('Settings');
+      expect(I18n.answer(answer, 'zh').question).assertEqual('当前开发进度到什么阶段了？');
+      expect(I18n.answer(answer, 'en').question).assertEqual('What is the current development progress?');
+      expect(I18n.toneLabel('强势', 'en')).assertEqual('Firm');
+    });
+    it('mockTranscriptPauseResumeStopFlow', 0, () => {
+      const service: MockTranscriptService = new MockTranscriptService();
+
+      expect(service.getTranscriptionState()).assertEqual('not_started');
+      service.startMockTranscription();
+      expect(service.getTranscriptionState()).assertEqual('transcribing');
+
+      const first: TranscriptItem | undefined = service.getNextTranscript();
+      expect(first !== undefined && first.id === 't-1').assertEqual(true);
+
+      service.pauseTranscription();
+      expect(service.getTranscriptionState()).assertEqual('paused');
+      expect(service.getNextTranscript() === undefined).assertEqual(true);
+
+      service.resumeTranscription();
+      expect(service.getTranscriptionState()).assertEqual('transcribing');
+      const second: TranscriptItem | undefined = service.getNextTranscript();
+      expect(second !== undefined && second.id === 't-2').assertEqual(true);
+
+      service.pauseTranscription();
+      service.pauseTranscription();
+      expect(service.getTranscriptionState()).assertEqual('paused');
+      expect(service.getNextTranscript() === undefined).assertEqual(true);
+
+      service.resumeTranscription();
+      service.resumeTranscription();
+      expect(service.getTranscriptionState()).assertEqual('transcribing');
+      const third: TranscriptItem | undefined = service.getNextTranscript();
+      expect(third !== undefined && third.id === 't-3').assertEqual(true);
+
+      service.stopTranscription();
+      service.stopTranscription();
+      expect(service.getTranscriptionState()).assertEqual('stopped');
+      expect(service.getNextTranscript() === undefined).assertEqual(true);
+
+      service.resumeTranscription();
+      expect(service.getTranscriptionState()).assertEqual('stopped');
+      expect(service.getNextTranscript() === undefined).assertEqual(true);
+    });
+    it('mockPageDataStatesUseServiceResults', 0, () => {
+      AppStorage.SetOrCreate<MeetingSummary[]>('meetingHistory', []);
+      AppStorage.SetOrCreate<AnswerBundle[]>('favorites', []);
+
+      const meetingService: MockMeetingService = new MockMeetingService();
+      const answerService: MockAIAnswerService = new MockAIAnswerService();
+
+      expect(meetingService.getMeetingHistory().length).assertEqual(0);
+      expect(MockStorageService.getFavorites().length).assertEqual(0);
+
+      let failed: boolean = false;
+      try {
+        meetingService.getMeetingById('missing-meeting');
+      } catch (error) {
+        failed = true;
+      }
+      expect(failed).assertEqual(true);
+      expect(meetingService.getTodayMeetings().length > 0).assertEqual(true);
+
+      const summary: MeetingSummary = answerService.generateMeetingSummary('product-review');
+      meetingService.saveMeetingSummary(summary);
+      MockStorageService.saveFavorite(answerService.generateAnswer('progress?'));
+
+      expect(meetingService.getMeetingHistory().length > 0).assertEqual(true);
+      expect(MockStorageService.getFavorites().length > 0).assertEqual(true);
     });
   });
 }

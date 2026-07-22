@@ -1,13 +1,14 @@
-export type DocumentSourceType = 'mail' | 'document' | 'history' | 'upload';
+export type DocumentSourceType = 'email' | 'document' | 'history' | 'user_upload';
 export type Reliability = 'verified' | 'needsCheck' | 'mock';
 
 export interface MeetingDocument {
   id: string;
+  meetingId: string;
   title: string;
-  sourceType: DocumentSourceType;
-  sourceName: string;
+  type: DocumentSourceType;
+  source: string;
   summary: string;
-  updatedAt: string;
-  selected: boolean;
-  reliability: Reliability;
+  lastUpdated: string;
+  includedInContext: boolean;
+  reliability?: Reliability;
 }

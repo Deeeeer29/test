@@ -16,7 +16,7 @@ export const mockAnswer: AnswerBundle = {
   ],
   riskWarnings: ['Delay and confidence data are mock values and need validation before external reporting.'],
   durationMode: '30s',
-  tone: 'pro',
+  tone: '专业',
   createdAt: 'Just now',
   isFavorite: false
 };
