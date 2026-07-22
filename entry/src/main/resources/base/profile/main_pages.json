@@ -1,5 +1,12 @@
 {
   "src": [
-    "pages/MainPage"
+    "pages/Index",
+    "pages/PrivacyOnboardingPage",
+    "pages/MeetingPreparationPage",
+    "pages/LiveMeetingPage",
+    "pages/AnswerDetailPage",
+    "pages/MeetingSummaryPage",
+    "pages/HistoryPage",
+    "pages/SettingsPage"
   ]
 }

@@ -4,20 +4,21 @@
     "products": [
       {
         "name": "default",
+        "signingConfig": "default",
         "targetSdkVersion": "6.1.1(24)",
         "compatibleSdkVersion": "6.1.1(24)",
         "runtimeOS": "HarmonyOS",
         "buildOption": {
           "strictMode": {
-            "caseSensitiveCheck": false,
-            "useNormalizedOHMUrl": false
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
           }
         }
       }
     ],
     "buildModeSet": [
       {
-        "name": "debug"
+        "name": "debug",
       },
       {
         "name": "release"
