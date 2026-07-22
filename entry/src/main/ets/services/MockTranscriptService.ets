@@ -1,42 +1,26 @@
 import { mockTranscripts } from '../mock/MockTranscripts';
 import { TranscriptItem } from '../model/TranscriptItem';
-import { TranscriptService, TranscriptionState } from './TranscriptService';
+import { ITranscriptService, TranscriptionState } from './TranscriptService';
 
-export class MockTranscriptService implements TranscriptService {
+export class MockTranscriptService implements ITranscriptService {
   private state: TranscriptionState = 'not_started';
   private cursor: number = 0;
-  private visibleTranscripts: TranscriptItem[] = [];
-  private sourceTranscripts: TranscriptItem[] = mockTranscripts;
+  private meetingId: string = '';
+  private visibleItems: TranscriptItem[] = [];
 
-  startMockTranscription(): TranscriptItem[] {
-    if (this.state === 'not_started') {
+  startTranscription(meetingId: string): void {
+    if (this.state === 'transcribing') {
+      return;
+    }
+    if (this.state === 'not_started' || this.state === 'stopped') {
       this.cursor = 0;
-      this.visibleTranscripts = [];
-      this.state = 'transcribing';
+      this.visibleItems = [];
     }
-    return this.sourceTranscripts;
-  }
-
-  getTranscriptionState(): TranscriptionState {
-    return this.state;
-  }
-
-  getVisibleTranscripts(): TranscriptItem[] {
-    return [...this.visibleTranscripts];
-  }
-
-  getNextTranscript(): TranscriptItem | undefined {
-    if (this.state !== 'transcribing' || this.cursor >= this.sourceTranscripts.length) {
-      return undefined;
+    this.meetingId = meetingId;
+    this.state = 'transcribing';
+    if (this.visibleItems.length === 0) {
+      this.getNextTranscript();
     }
-    const next: TranscriptItem = this.sourceTranscripts[this.cursor];
-    this.visibleTranscripts = [...this.visibleTranscripts, next];
-    this.cursor += 1;
-    return next;
-  }
-
-  hasMoreTranscripts(): boolean {
-    return this.cursor < this.sourceTranscripts.length;
   }
 
   pauseTranscription(): void {
@@ -53,11 +37,56 @@ export class MockTranscriptService implements TranscriptService {
     this.state = 'transcribing';
   }
 
-  stopTranscription(): void {
+  stopTranscription(): TranscriptItem[] {
     if (this.state === 'stopped') {
-      return;
+      return this.getVisibleTranscripts();
     }
     this.state = 'stopped';
-    this.cursor = this.sourceTranscripts.length;
+    this.cursor = mockTranscripts.length;
+    return this.getVisibleTranscripts();
+  }
+
+  getTranscriptionStream(): TranscriptItem[] {
+    return this.getVisibleTranscripts();
+  }
+
+  detectQuestion(transcriptItem: TranscriptItem): boolean {
+    return transcriptItem.isQuestion || transcriptItem.content.indexOf('?') >= 0;
+  }
+
+  detectMention(transcriptItem: TranscriptItem): boolean {
+    return transcriptItem.isMentioned;
+  }
+
+  getTranscriptionState(): TranscriptionState {
+    return this.state;
+  }
+
+  getVisibleTranscripts(): TranscriptItem[] {
+    return this.visibleItems.slice(0);
+  }
+
+  getNextTranscript(): TranscriptItem | undefined {
+    if (this.state !== 'transcribing' || this.cursor >= mockTranscripts.length) {
+      return undefined;
+    }
+    const source: TranscriptItem = mockTranscripts[this.cursor];
+    const item: TranscriptItem = {
+      id: `${this.meetingId}-${source.id}`,
+      meetingId: this.meetingId,
+      speaker: source.speaker,
+      content: source.content,
+      timestamp: source.timestamp,
+      isQuestion: source.isQuestion,
+      isMentioned: source.isMentioned,
+      confidence: source.confidence
+    };
+    this.visibleItems.push(item);
+    this.cursor += 1;
+    return item;
+  }
+
+  hasMoreTranscripts(): boolean {
+    return this.state === 'transcribing' && this.cursor < mockTranscripts.length;
   }
 }

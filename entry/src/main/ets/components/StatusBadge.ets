@@ -12,13 +12,20 @@ export struct StatusBadge {
     return AppTheme.accentColor;
   }
 
+  private badgeBackground(): string {
+    if (this.type === 'success') { return AppTheme.successSoft; }
+    if (this.type === 'warning') { return AppTheme.warningSoft; }
+    if (this.type === 'error') { return AppTheme.errorSoft; }
+    return AppTheme.accentSoft;
+  }
+
   build() {
     Row() {
       Blank().width(7).height(7).backgroundColor(this.color()).borderRadius(4)
       Text(this.label).fontSize(12).fontColor(this.color()).margin({ left: 6 })
     }
     .padding({ left: 9, right: 9, top: 5, bottom: 5 })
-    .backgroundColor('#162028')
+    .backgroundColor(this.badgeBackground())
     .borderRadius(AppTheme.radiusSmall)
   }
 }

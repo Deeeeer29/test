@@ -2,25 +2,35 @@ import { AnswerBundle } from '../model/AnswerBundle';
 import { MeetingSummary } from '../model/MeetingSummary';
 import { UserPreferences } from '../model/UserPreferences';
 import { AppLanguage } from '../common/i18n/I18n';
+import { IStorageService } from './StorageService';
 
 const DEFAULT_PREFERENCES: UserPreferences = {
   language: 'zh',
-  saveTranscript: true,
-  saveAudio: false,
-  cloudAnalysis: true,
-  localFirst: false,
-  autoDeleteDays: 30,
-  defaultAnswerDuration: '30s',
-  defaultTone: '专业',
-  showSources: true,
-  showRiskWarnings: true,
-  autoShowFloatingCard: true,
-  environmentMode: 'quiet'
+  privacy: {
+    saveTranscript: true,
+    saveAudio: false,
+    cloudAnalysis: true,
+    localFirst: false,
+    autoDeletePeriod: 30
+  },
+  answer: {
+    defaultDuration: '30s',
+    defaultTone: 'professional',
+    autoGenerate: false,
+    headphoneOutput: true
+  },
+  environment: {
+    mode: 'quiet',
+    autoSwitch: true
+  }
 };
 
-export class MockStorageService {
+export class MockStorageService implements IStorageService {
+  private static meetingHistory: MeetingSummary[] = [];
+  private static favoriteAnswers: AnswerBundle[] = [];
+
   static initializeLanguageStorage(): void {
-    PersistentStorage.PersistProp<AppLanguage>('language', DEFAULT_PREFERENCES.language);
+    AppStorage.SetOrCreate<AppLanguage>('language', DEFAULT_PREFERENCES.language);
     const language: AppLanguage = MockStorageService.getLanguage();
     const preferences: UserPreferences = MockStorageService.getPreferences();
     preferences.language = language;
@@ -30,20 +40,13 @@ export class MockStorageService {
   static getPreferences(): UserPreferences {
     const stored: UserPreferences | undefined = AppStorage.Get<UserPreferences>('preferences');
     const language: AppLanguage | undefined = AppStorage.Get<AppLanguage>('language');
+    
     if (stored) {
       return {
-        language: language || stored.language,
-        saveTranscript: stored.saveTranscript,
-        saveAudio: stored.saveAudio,
-        cloudAnalysis: stored.cloudAnalysis,
-        localFirst: stored.localFirst,
-        autoDeleteDays: stored.autoDeleteDays,
-        defaultAnswerDuration: stored.defaultAnswerDuration,
-        defaultTone: stored.defaultTone,
-        showSources: stored.showSources,
-        showRiskWarnings: stored.showRiskWarnings,
-        autoShowFloatingCard: stored.autoShowFloatingCard,
-        environmentMode: stored.environmentMode
+        language: language || stored.language || DEFAULT_PREFERENCES.language,
+        privacy: stored.privacy || DEFAULT_PREFERENCES.privacy,
+        answer: stored.answer || DEFAULT_PREFERENCES.answer,
+        environment: stored.environment || DEFAULT_PREFERENCES.environment
       };
     }
     return MockStorageService.getDefaultPreferences(language || DEFAULT_PREFERENCES.language);
@@ -65,27 +68,90 @@ export class MockStorageService {
     MockStorageService.savePreferences(preferences);
   }
 
-  static getOnboardingStatus(): boolean { const completed: boolean | undefined = AppStorage.Get<boolean>('onboardingCompleted'); return completed || false; }
-  static saveOnboardingStatus(completed: boolean): void { AppStorage.SetOrCreate<boolean>('onboardingCompleted', completed); }
-  static getFavorites(): AnswerBundle[] { const favorites: AnswerBundle[] | undefined = AppStorage.Get<AnswerBundle[]>('favorites'); return favorites || []; }
-  static saveFavorite(answer: AnswerBundle): void { const favorites: AnswerBundle[] = MockStorageService.getFavorites(); const nextFavorites: AnswerBundle[] = favorites.filter((item: AnswerBundle): boolean => item.id !== answer.id); nextFavorites.unshift(answer); AppStorage.SetOrCreate<AnswerBundle[]>('favorites', nextFavorites); }
-  static saveMeetingHistory(summary: MeetingSummary): void { const history: MeetingSummary[] = MockStorageService.getMeetingHistory(); const exists: boolean = history.some((item: MeetingSummary): boolean => item.id === summary.id); if (!exists) { history.unshift(summary); } AppStorage.SetOrCreate<MeetingSummary[]>('meetingHistory', history); }
-  static getMeetingHistory(): MeetingSummary[] { const history: MeetingSummary[] | undefined = AppStorage.Get<MeetingSummary[]>('meetingHistory'); return history || []; }
+  static getOnboardingStatus(): boolean {
+    const completed: boolean | undefined = AppStorage.Get<boolean>('onboardingCompleted');
+    return completed || false;
+  }
+
+  static saveOnboardingStatus(completed: boolean): void {
+    AppStorage.SetOrCreate<boolean>('onboardingCompleted', completed);
+  }
+
+  static getFavorites(): AnswerBundle[] {
+    const stored: AnswerBundle[] | undefined = AppStorage.Get<AnswerBundle[]>('favoriteAnswers');
+    return stored || [];
+  }
+
+  static saveFavorites(favorites: AnswerBundle[]): void {
+    AppStorage.SetOrCreate<AnswerBundle[]>('favoriteAnswers', favorites);
+  }
+
+  static saveFavorite(answer: AnswerBundle): void {
+    const favorites: AnswerBundle[] = MockStorageService.getFavorites();
+    const nextFavorites: AnswerBundle[] = favorites.filter((item: AnswerBundle): boolean => item.id !== answer.id);
+    nextFavorites.unshift(answer);
+    MockStorageService.saveFavorites(nextFavorites);
+  }
+
+  static getMeetingHistory(): MeetingSummary[] {
+    const stored: MeetingSummary[] | undefined = AppStorage.Get<MeetingSummary[]>('meetingHistory');
+    return stored || [];
+  }
+
+  static saveMeetingHistory(history: MeetingSummary[]): void {
+    AppStorage.SetOrCreate<MeetingSummary[]>('meetingHistory', history);
+  }
 
   private static getDefaultPreferences(language: AppLanguage): UserPreferences {
     return {
       language: language,
-      saveTranscript: DEFAULT_PREFERENCES.saveTranscript,
-      saveAudio: DEFAULT_PREFERENCES.saveAudio,
-      cloudAnalysis: DEFAULT_PREFERENCES.cloudAnalysis,
-      localFirst: DEFAULT_PREFERENCES.localFirst,
-      autoDeleteDays: DEFAULT_PREFERENCES.autoDeleteDays,
-      defaultAnswerDuration: DEFAULT_PREFERENCES.defaultAnswerDuration,
-      defaultTone: DEFAULT_PREFERENCES.defaultTone,
-      showSources: DEFAULT_PREFERENCES.showSources,
-      showRiskWarnings: DEFAULT_PREFERENCES.showRiskWarnings,
-      autoShowFloatingCard: DEFAULT_PREFERENCES.autoShowFloatingCard,
-      environmentMode: DEFAULT_PREFERENCES.environmentMode
+      privacy: DEFAULT_PREFERENCES.privacy,
+      answer: DEFAULT_PREFERENCES.answer,
+      environment: DEFAULT_PREFERENCES.environment
     };
+  }
+
+  async saveMeetingSummary(summary: MeetingSummary): Promise<void> {
+    await new Promise<void>((resolve: () => void): void => { setTimeout(resolve, 300); });
+    const history: MeetingSummary[] = MockStorageService.getMeetingHistory();
+    history.unshift(summary);
+    MockStorageService.saveMeetingHistory(history);
+  }
+
+  async getMeetingHistory(): Promise<MeetingSummary[]> {
+    await new Promise<void>((resolve: () => void): void => { setTimeout(resolve, 200); });
+    return MockStorageService.getMeetingHistory();
+  }
+
+  async saveUserPreferences(preferences: UserPreferences): Promise<void> {
+    await new Promise<void>((resolve: () => void): void => { setTimeout(resolve, 250); });
+    MockStorageService.savePreferences(preferences);
+  }
+
+  async getUserPreferences(): Promise<UserPreferences> {
+    await new Promise<void>((resolve: () => void): void => { setTimeout(resolve, 150); });
+    return MockStorageService.getPreferences();
+  }
+
+  async saveFavoriteAnswer(answer: AnswerBundle): Promise<void> {
+    await new Promise<void>((resolve: () => void): void => { setTimeout(resolve, 200); });
+    const favorites: AnswerBundle[] = MockStorageService.getFavorites();
+    favorites.push(answer);
+    MockStorageService.saveFavorites(favorites);
+  }
+
+  async getFavoriteAnswers(): Promise<AnswerBundle[]> {
+    await new Promise<void>((resolve: () => void): void => { setTimeout(resolve, 180); });
+    return MockStorageService.getFavorites();
+  }
+
+  async getOnboardingStatus(): Promise<boolean> {
+    await new Promise<void>((resolve: () => void): void => { setTimeout(resolve, 100); });
+    return MockStorageService.getOnboardingStatus();
+  }
+
+  async saveOnboardingStatus(completed: boolean): Promise<void> {
+    await new Promise<void>((resolve: () => void): void => { setTimeout(resolve, 150); });
+    MockStorageService.saveOnboardingStatus(completed);
   }
 }

@@ -25,4 +25,9 @@ export interface AnswerBundle {
   tone: AnswerTone;
   createdAt: string;
   isFavorite: boolean;
+  keyPoints: string[];
+  supportingFacts: SupportingFact[];
+  riskWarnings: string[];
+  immediateAnswer: string;
+  transitionSentence?: string;
 }

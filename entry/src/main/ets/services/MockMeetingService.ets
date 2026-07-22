@@ -1,9 +1,9 @@
-import { Meeting } from '../model/Meeting';
-import { MeetingSummary } from '../model/MeetingSummary';
 import { mockDocuments } from '../mock/MockDocuments';
 import { mockMeetings } from '../mock/MockMeetings';
 import { mockQuestions } from '../mock/MockQuestions';
-import { MeetingPreparation, MeetingService } from './MeetingService';
+import { Meeting } from '../model/Meeting';
+import { MeetingSummary } from '../model/MeetingSummary';
+import { KeyMetric, MeetingPreparation, MeetingService } from './MeetingService';
 import { MockStorageService } from './MockStorageService';
 
 export class MockMeetingService implements MeetingService {
@@ -12,33 +12,96 @@ export class MockMeetingService implements MeetingService {
   }
 
   getMeetingById(id: string): Meeting {
-    const matched: Meeting | undefined = mockMeetings.find((item: Meeting) => item.id === id);
-    if (!matched) {
+    const meeting: Meeting | undefined = mockMeetings.find((item: Meeting): boolean => item.id === id);
+    if (!meeting) {
       throw new Error(`Meeting not found: ${id}`);
     }
-    return matched;
+    return meeting;
   }
 
-  getMeetingPreparation(id: string): MeetingPreparation {
-    this.getMeetingById(id);
+  startMeeting(meetingId: string): void {
+    const meeting: Meeting | undefined = mockMeetings.find((item: Meeting): boolean => item.id === meetingId);
+    if (meeting) {
+      meeting.status = 'in_progress';
+    }
+  }
+
+  endMeeting(meetingId: string): MeetingSummary {
+    return this.buildSummary(meetingId);
+  }
+
+  getMeetingPreparation(meetingId: string): MeetingPreparation {
+    const meeting: Meeting = this.getMeetingById(meetingId);
+    const keyMetrics: KeyMetric[] = [
+      { name: 'Completion', value: 85, unit: '%' },
+      { name: 'New tasks', value: 12 },
+      { name: 'Open risks', value: 2 }
+    ];
     return {
-      documents: mockDocuments,
-      questions: mockQuestions,
+      meeting: meeting,
+      documents: mockDocuments.filter((doc): boolean => doc.meetingId === meetingId),
+      predictedQuestions: mockQuestions.filter((question): boolean => question.meetingId === meetingId),
+      keyMetrics: keyMetrics,
       backgroundSummary: [
-        '当前项目处于手机端 MVP 演示闭环实现阶段。',
-        '最近进展集中在页面导航、Mock 数据、流式回答和会后总结。',
-        '主要风险是真实 ASR、LLM、日历和耳机播报尚未接入。',
-        '本次会议重点确认第一版范围、演示路径和后续接入边界。'
-      ],
-      keyMetrics: ['完成率 78%', '本周新增任务 12 项', '待处理风险 3 项', '预计交付 2026-07-26']
+        'Phone-side MVP loop is the current V1 focus.',
+        'Real ASR and LLM are reserved behind service interfaces.',
+        'Mock data is used for the current demo build.'
+      ]
     };
   }
 
   saveMeetingSummary(summary: MeetingSummary): void {
-    MockStorageService.saveMeetingHistory(summary);
+    const history: MeetingSummary[] = MockStorageService.getMeetingHistory();
+    const nextHistory: MeetingSummary[] = history.filter((item: MeetingSummary): boolean => item.id !== summary.id);
+    nextHistory.unshift(summary);
+    MockStorageService.saveMeetingHistory(nextHistory);
   }
 
   getMeetingHistory(): MeetingSummary[] {
     return MockStorageService.getMeetingHistory();
+  }
+
+  private buildSummary(meetingId: string): MeetingSummary {
+    return {
+      id: `summary-${meetingId}`,
+      meetingId: meetingId,
+      meetingTitle: 'Product Plan Review',
+      date: '2026-07-23',
+      startTime: '09:30',
+      endTime: '10:30',
+      duration: '60 minutes',
+      attendees: ['Manager Wang', 'Engineer Chen', 'User'],
+      coreConclusions: [
+        'V1 prioritizes a complete phone-side demo loop.',
+        'Real capabilities remain behind replaceable service interfaces.',
+        'Mock data must be presented as mock data.'
+      ],
+      conclusions: [
+        'V1 prioritizes a complete phone-side demo loop.',
+        'Real capabilities remain behind replaceable service interfaces.'
+      ],
+      decisions: [
+        { item: 'Keep V1 scope focused on phone-side text prompts.', owner: 'Product', deadline: '2026-07-29' },
+        { item: 'Reserve ASR and LLM replacement points in services.', owner: 'Engineering', deadline: '2026-08-05' }
+      ],
+      todoItems: [
+        { task: 'Verify live transcript pause and resume flow.', assignee: 'Engineering', priority: 'high', status: 'pending' },
+        { task: 'Review answer detail copy.', assignee: 'Product', priority: 'medium', status: 'pending' }
+      ],
+      pendingConfirmations: [
+        'Real ASR SDK API',
+        'LLM service integration boundary'
+      ],
+      aiAssistedRecords: [
+        {
+          question: 'What is the current development progress?',
+          answer: 'The phone-side MVP loop is the current priority.',
+          timestamp: '2026-07-23T09:45:00'
+        }
+      ],
+      createdAt: '2026-07-23T10:30:00',
+      aiAssistCount: 1,
+      answers: []
+    };
   }
 }

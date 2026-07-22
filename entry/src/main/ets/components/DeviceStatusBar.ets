@@ -11,12 +11,12 @@ export struct DeviceStatusBar {
   build() {
     Column() {
       Row() {
-        StatusBadge({ label: I18n.phoneStatus(this.status.phoneAvailable, this.language), type: this.status.phoneAvailable ? 'success' : 'error' })
-        StatusBadge({ label: I18n.earphoneStatus(this.status.earphoneConnected, this.language), type: this.status.earphoneConnected ? 'success' : 'warning' }).margin({ left: 8 })
+        StatusBadge({ label: I18n.phoneStatus(this.status.phone.isAvailable, this.language), type: this.status.phone.isAvailable ? 'success' : 'error' })
+        StatusBadge({ label: I18n.micStatus(this.status.phone.microphonePermission, this.language), type: this.status.phone.microphonePermission ? 'success' : 'warning' }).margin({ left: 8 })
       }.width('100%')
       Row() {
-        StatusBadge({ label: I18n.aiStatus(this.status.aiServiceAvailable, this.language), type: this.status.aiServiceAvailable ? 'success' : 'error' })
-        StatusBadge({ label: I18n.micStatus(this.status.microphoneActive, this.language), type: this.status.microphoneActive ? 'warning' : 'normal' }).margin({ left: 8 })
+        StatusBadge({ label: I18n.earphoneStatus(this.status.headphone.isConnected, this.language), type: this.status.headphone.isConnected ? 'success' : 'warning' })
+        StatusBadge({ label: I18n.aiStatus(this.status.aiService.isAvailable, this.language), type: this.status.aiService.isAvailable ? 'success' : 'error' }).margin({ left: 8 })
       }.width('100%').margin({ top: 8 })
     }
     .width('100%')

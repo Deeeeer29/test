@@ -1,16 +1,29 @@
-import { DeviceStatus } from '../model/DeviceStatus';
-import { AudioOutputService } from './AudioOutputService';
 import { I18n } from '../common/i18n/I18n';
+import { AIServiceStatus, DeviceStatus, HeadphoneStatus, PhoneStatus } from '../model/DeviceStatus';
+import { AudioOutputService } from './AudioOutputService';
 import { MockStorageService } from './MockStorageService';
 
 export class MockAudioOutputService implements AudioOutputService {
   getEarphoneStatus(): DeviceStatus {
+    const phoneStatus: PhoneStatus = {
+      isAvailable: true,
+      microphonePermission: true,
+      batteryLevel: 85
+    };
+    const headphoneStatus: HeadphoneStatus = {
+      isConnected: true,
+      isAvailable: true,
+      type: 'wireless'
+    };
+    const aiServiceStatus: AIServiceStatus = {
+      isAvailable: true,
+      mode: 'local',
+      status: 'idle'
+    };
     return {
-      phoneAvailable: true,
-      earphoneConnected: true,
-      aiServiceAvailable: true,
-      microphoneActive: false,
-      lastCheckTime: MockStorageService.getLanguage() === 'zh' ? '刚刚' : 'Just now'
+      phone: phoneStatus,
+      headphone: headphoneStatus,
+      aiService: aiServiceStatus
     };
   }
 

@@ -26,7 +26,7 @@ struct PrivacyOnboardingPage {
         PermissionItem({ icon: 'Doc', title: I18n.t('files', this.language), reason: I18n.t('filesReason', this.language), isEnabled: this.fileOn, language: this.language, onToggle: (title: string): void => { this.fileOn = !this.fileOn; } }).margin({ bottom: 10 })
         SectionHeader({ title: I18n.t('rules', this.language) })
         Text(I18n.t('rulesDesc', this.language)).width('100%').padding(14).fontSize(13).fontColor(AppTheme.secondaryText).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium)
-        Button(I18n.t('finishSetup', this.language)).width('100%').height(48).margin({ top: 22, bottom: 20 }).fontColor('#07110F').backgroundColor(AppTheme.accentColor).onClick((): void => { MockStorageService.saveOnboardingStatus(true); router.replaceUrl({ url: 'pages/Index' }); })
+        Button(I18n.t('finishSetup', this.language)).width('100%').height(48).margin({ top: 22, bottom: 20 }).fontColor(AppTheme.primaryButtonText).backgroundColor(AppTheme.accentColor).onClick((): void => { MockStorageService.saveOnboardingStatus(true); router.replaceUrl({ url: 'pages/Index' }, router.RouterMode.Single); })
       }.alignItems(HorizontalAlign.Start).padding(18)
     }.width('100%').height('100%').backgroundColor(AppTheme.pageBackground)
   }

@@ -3,6 +3,6 @@ export interface ActionItem {
   title: string;
   owner: string;
   deadline: string;
-  priority: '高' | '中' | '低';
+  priority: 'high' | 'medium' | 'low';
   completed: boolean;
 }

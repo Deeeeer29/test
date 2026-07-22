@@ -3,20 +3,26 @@ import { MeetingDocument } from '../model/MeetingDocument';
 import { PredictedQuestion } from '../model/PredictedQuestion';
 import { MeetingSummary } from '../model/MeetingSummary';
 
+export interface KeyMetric {
+  name: string;
+  value: number;
+  unit?: string;
+}
+
 export interface MeetingPreparation {
   meeting: Meeting;
   documents: MeetingDocument[];
   predictedQuestions: PredictedQuestion[];
-  keyMetrics: Record<string, any>;
+  keyMetrics: KeyMetric[];
   backgroundSummary: string[];
 }
 
 export interface MeetingService {
-  getTodayMeetings(): Promise<Meeting[]>;
-  getMeetingById(id: string): Promise<Meeting>;
-  startMeeting(meetingId: string): Promise<void>;
-  endMeeting(meetingId: string): Promise<MeetingSummary>;
-  getMeetingPreparation(meetingId: string): Promise<MeetingPreparation>;
-  saveMeetingSummary(summary: MeetingSummary): Promise<void>;
-  getMeetingHistory(): Promise<MeetingSummary[]>;
+  getTodayMeetings(): Meeting[];
+  getMeetingById(id: string): Meeting;
+  startMeeting(meetingId: string): void;
+  endMeeting(meetingId: string): MeetingSummary;
+  getMeetingPreparation(meetingId: string): MeetingPreparation;
+  saveMeetingSummary(summary: MeetingSummary): void;
+  getMeetingHistory(): MeetingSummary[];
 }

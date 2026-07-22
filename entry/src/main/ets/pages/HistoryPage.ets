@@ -51,7 +51,7 @@ struct HistoryPage {
         this.favoriteAnswers = nextFavorites;
         this.pageState = nextHistory.length + nextFavorites.length > 0 ? 'success' : 'empty';
       } catch (error) {
-        this.errorText = 'Failed to load history records.';
+        this.errorText = I18n.t('historyErrorDesc', this.language);
         this.history = [];
         this.favoriteAnswers = [];
         this.pageState = 'error';
@@ -93,22 +93,22 @@ struct HistoryPage {
       Column() {
         Row() { Button(I18n.t('back', this.language)).height(34).backgroundColor(AppTheme.elevatedBackground).fontColor(AppTheme.secondaryText).onClick((): void => { router.back(); }); Text(I18n.t('history', this.language)).layoutWeight(1).textAlign(TextAlign.Center).fontSize(18).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText) }.width('100%')
         if (this.pageState === 'loading') {
-          PageStateView({ state: 'loading', title: 'Loading history', description: 'Reading saved summaries and favorite answers.' }).margin({ top: 16 })
+          PageStateView({ state: 'loading', title: I18n.t('loadingHistory', this.language), description: I18n.t('loadingHistoryDesc', this.language) }).margin({ top: 16 })
         } else if (this.pageState === 'error') {
-          PageStateView({ state: 'error', title: 'Unable to load history', description: this.errorText, actionLabel: 'Retry', actionEnabled: !this.isLoading, onAction: (): void => this.loadHistory() }).margin({ top: 16 })
+          PageStateView({ state: 'error', title: I18n.t('historyError', this.language), description: this.errorText, actionLabel: I18n.t('retry', this.language), actionEnabled: !this.isLoading, onAction: (): void => this.loadHistory() }).margin({ top: 16 })
         } else if (this.pageState === 'empty') {
-          PageStateView({ state: 'empty', title: I18n.t('noHistory', this.language), description: I18n.t('saveSummaryFirst', this.language), actionLabel: I18n.t('startAdHocMeeting', this.language), onAction: (): void => { router.pushUrl({ url: 'pages/LiveMeetingPage', params: { meetingId: 'product-review' } }); } }).margin({ top: 16 })
+          PageStateView({ state: 'empty', title: I18n.t('noHistory', this.language), description: I18n.t('saveSummaryFirst', this.language), actionLabel: I18n.t('startAdHocMeeting', this.language), onAction: (): void => { router.pushUrl({ url: 'pages/LiveMeetingPage', params: { meetingId: 'product-review' } }, router.RouterMode.Single); } }).margin({ top: 16 })
         } else {
           Row() { Button(I18n.t('all', this.language)).layoutWeight(1).height(34).enabled(!this.isLoading).onClick((): void => { this.active = 'All'; }); Button(I18n.t('meetings', this.language)).layoutWeight(1).height(34).enabled(!this.isLoading).margin({ left: 6 }).onClick((): void => { this.active = 'Meetings'; }); Button(I18n.t('answers', this.language)).layoutWeight(1).height(34).enabled(!this.isLoading).margin({ left: 6 }).onClick((): void => { this.active = 'Answers'; }) }.margin({ top: 16 }).width('100%')
           TextInput({ placeholder: I18n.t('searchPlaceholder', this.language), text: this.keyword }).margin({ top: 12 }).height(42).fontColor(AppTheme.primaryText).placeholderColor(AppTheme.mutedText).backgroundColor(AppTheme.cardBackground).enabled(!this.isLoading).onChange((value: string): void => { this.keyword = value; })
           if (!this.hasVisibleData()) {
-            PageStateView({ state: 'empty', title: 'No matching records', description: 'No saved meeting summaries or favorite answers match the current filter.', actionLabel: 'Reload', actionEnabled: !this.isLoading, onAction: (): void => this.loadHistory() }).margin({ top: 16 })
+            PageStateView({ state: 'empty', title: I18n.t('noMatchingRecords', this.language), description: I18n.t('noMatchingRecordsDesc', this.language), actionLabel: I18n.t('reload', this.language), actionEnabled: !this.isLoading, onAction: (): void => this.loadHistory() }).margin({ top: 16 })
           } else {
             if (this.hasVisibleMeetings()) {
               SectionHeader({ title: I18n.t('meetingHistory', this.language) })
               ForEach(this.history, (summary: MeetingSummary) => {
                 if (this.meetingVisible(summary)) {
-                  Text(I18n.historySummaryLine(summary, this.language)).width('100%').padding(14).margin({ bottom: 10 }).fontSize(13).fontColor(AppTheme.secondaryText).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium).onClick((): void => { router.pushUrl({ url: 'pages/MeetingSummaryPage', params: { meetingId: summary.meetingId } }); })
+                  Text(I18n.historySummaryLine(summary, this.language)).width('100%').padding(14).margin({ bottom: 10 }).fontSize(13).fontColor(AppTheme.secondaryText).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium).onClick((): void => { router.pushUrl({ url: 'pages/MeetingSummaryPage', params: { meetingId: summary.meetingId } }, router.RouterMode.Single); })
                 }
               }, (summary: MeetingSummary): string => summary.id)
             }
@@ -116,7 +116,7 @@ struct HistoryPage {
               SectionHeader({ title: I18n.t('answerHistory', this.language) })
               ForEach(this.favoriteAnswers, (answer: AnswerBundle) => {
                 if (this.answerVisible(answer)) {
-                  Column() { Text(I18n.answer(answer, this.language).question).width('100%').fontSize(15).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText); Text(`${I18n.answer(answer, this.language).transitionSentence} / ${answer.durationMode} / ${I18n.toneLabel(answer.tone, this.language)}`).width('100%').margin({ top: 8 }).fontSize(12).fontColor(AppTheme.secondaryText); Button(I18n.t('favorited', this.language)).width('100%').height(34).margin({ top: 8 }).onClick((): void => { promptAction.showToast({ message: I18n.t('favorited', this.language) }); }) }.alignItems(HorizontalAlign.Start).width('100%').padding(14).margin({ bottom: 10 }).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium).onClick((): void => { router.pushUrl({ url: 'pages/AnswerDetailPage' }); })
+                  Column() { Text(I18n.answer(answer, this.language).question).width('100%').fontSize(15).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText); Text(`${I18n.answer(answer, this.language).transitionSentence} / ${answer.durationMode} / ${I18n.toneLabel(answer.tone, this.language)}`).width('100%').margin({ top: 8 }).fontSize(12).fontColor(AppTheme.secondaryText); Button(I18n.t('favorited', this.language)).width('100%').height(34).margin({ top: 8 }).backgroundColor(AppTheme.accentSoft).fontColor(AppTheme.accentColor).onClick((): void => { promptAction.showToast({ message: I18n.t('favorited', this.language) }); }) }.alignItems(HorizontalAlign.Start).width('100%').padding(14).margin({ bottom: 10 }).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium).onClick((): void => { router.pushUrl({ url: 'pages/AnswerDetailPage', params: { questionId: answer.id, from: 'history' } }, router.RouterMode.Single); })
                 }
               }, (answer: AnswerBundle): string => answer.id)
             }

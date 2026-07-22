@@ -11,6 +11,10 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "microphone_permission_reason",
+      "value": "用于会议录音和语音识别功能"
     }
   ]
 }
