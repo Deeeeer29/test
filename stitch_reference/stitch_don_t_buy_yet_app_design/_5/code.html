@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cooling Pool - 先别买</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800&amp;family=Work+Sans:wght@400;700&amp;family=Bricolage+Grotesque:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#71d7cd",
+                        "tertiary": "#006a63",
+                        "on-primary-fixed": "#241a00",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#735c00",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#d0c6ae",
+                        "primary-fixed-dim": "#ebc23e",
+                        "on-secondary-fixed": "#3a0a00",
+                        "primary-container": "#ffd54f",
+                        "surface-container": "#f0eee9",
+                        "on-tertiary-fixed": "#00201d",
+                        "surface-variant": "#e4e2dd",
+                        "secondary-fixed": "#ffdbd0",
+                        "surface": "#fbf9f4",
+                        "background": "#fbf9f4",
+                        "inverse-surface": "#30312e",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f5f3ee",
+                        "on-error": "#ffffff",
+                        "outline": "#7f7662",
+                        "tertiary-container": "#84eadf",
+                        "on-surface-variant": "#4d4634",
+                        "surface-container-high": "#eae8e3",
+                        "surface-dim": "#dbdad5",
+                        "on-primary-fixed-variant": "#574500",
+                        "primary": "#735c00",
+                        "on-tertiary-fixed-variant": "#00504a",
+                        "tertiary-fixed": "#8ef4e9",
+                        "secondary-fixed-dim": "#ffb59f",
+                        "surface-container-highest": "#e4e2dd",
+                        "on-background": "#1b1c19",
+                        "secondary": "#ac3509",
+                        "on-tertiary-container": "#006a63",
+                        "on-secondary-container": "#631800",
+                        "on-surface": "#1b1c19",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#fe6f42",
+                        "inverse-on-surface": "#f2f1ec",
+                        "surface-tint": "#735c00",
+                        "primary-fixed": "#ffe087",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#ebc23e",
+                        "on-secondary-fixed-variant": "#852300",
+                        "surface-bright": "#fbf9f4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "20px",
+                        "element-gap": "16px",
+                        "base": "8px",
+                        "tilt-angle": "2deg"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Work Sans", "sans-serif"],
+                        "label-caps": ["Work Sans", "sans-serif"],
+                        "display-lg": ["Epilogue", "sans-serif"],
+                        "body-lg": ["Work Sans", "sans-serif"],
+                        "headline-lg": ["Epilogue", "sans-serif"],
+                        "note-handwritten": ["Bricolage Grotesque", "sans-serif"],
+                        "headline-md": ["Epilogue", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["30px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "note-handwritten": ["16px", { "lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "30px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .collage-bg {
+            background-image: radial-gradient(var(--tw-colors-outline-variant) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .text-stroke-primary {
+            -webkit-text-stroke: 1px var(--tw-colors-on-background);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md text-body-md min-h-screen collage-bg pb-32 overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container relative">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-container-padding py-base max-w-md mx-auto border-b-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-background sticky top-0 z-40 transition-all">
+<button aria-label="Menu" class="text-on-background hover:bg-surface-variant active:translate-x-[2px] active:translate-y-[2px] active:shadow-none p-2 rounded-DEFAULT transition-all flex items-center justify-center border-2 border-transparent hover:border-on-background">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">edit_note</span>
+</button>
+<h1 class="font-display-lg text-[24px] leading-[32px] tracking-tight font-extrabold text-primary -rotate-2">
+            先别买
+        </h1>
+<button aria-label="Profile" class="text-on-background hover:bg-surface-variant active:translate-x-[2px] active:translate-y-[2px] active:shadow-none p-2 rounded-DEFAULT transition-all flex items-center justify-center border-2 border-transparent hover:border-on-background">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+</header>
+<main class="max-w-md mx-auto px-container-padding mt-8 flex flex-col gap-[24px]">
+<!-- Headline Section -->
+<section class="rotate-1 bg-surface-container-high border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-5 relative overflow-hidden">
+<div class="absolute -top-3 -right-3 w-12 h-12 bg-primary-container border-2 border-on-background rounded-full flex items-center justify-center -rotate-12">
+<span class="material-symbols-outlined text-on-primary-container">water_drop</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-background mb-2">先放一放，<br/><span class="text-primary underline decoration-4 underline-offset-4 decoration-primary-container">喜欢不会马上过期。</span></h2>
+<p class="font-note-handwritten text-note-handwritten text-on-surface-variant mt-2">The Cooling Pool — giving your impulses time to chill.</p>
+</section>
+<!-- Summary Strip (Washi Tape Style) -->
+<div class="-rotate-1 bg-tertiary-container border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-on-tertiary-container">verified</span>
+<p class="font-label-caps text-label-caps text-on-tertiary-container tracking-widest">本月你已经忍住 3 次冲动</p>
+</div>
+<!-- Cooling Items -->
+<section class="flex flex-col gap-6 mt-4">
+<!-- Item 1: Headphones (Polaroid Style, Active Cooling) -->
+<article class="bg-surface border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-3 pb-5 rotate-[1deg] flex flex-col gap-3 relative">
+<!-- Status Sticker -->
+<div class="absolute -top-4 -left-2 bg-primary-container border-2 border-on-background px-3 py-1 -rotate-6 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] z-10 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">timer</span>
+<span class="font-label-caps text-label-caps text-on-primary-container">19H LEFT</span>
+</div>
+<div class="aspect-square w-full border-2 border-on-background bg-surface-variant overflow-hidden relative">
+<img class="w-full h-full object-cover grayscale mix-blend-multiply" data-alt="A stylized, editorial photo of premium yellow over-ear headphones resting on a textured cream paper surface, hard lighting casting sharp black shadows, neobrutalist aesthetic, minimalist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4sF2ZexS8NujTSt0FECAuuySZJJoT2_VjQG_mbwnyjoVzQzzlcyYt2HD6QrXpg-BapW0KURFYcfll9eOJJg3wpG90X9CcWtj2o1vvt8H9gmrmnXUgnjDkvZiMPtU1AlutHMhpwCvbs7c9vD3jAn3Z1OCDAMwlI-1rD3bGplsmQZdC4FgIbAxTozJDZQ6wXFLgoD4tkN3lUnkaLEytzzGaTKJuPCXy8alDTLY4dCs6vewxjp8sLpJ0lxLzyRUkJfwmclq1UTkGH0fx"/>
+</div>
+<div class="flex justify-between items-start mt-2">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-background">Sony WH-1000XM5 耳机</h3>
+<p class="font-note-handwritten text-note-handwritten text-outline mt-1">¥ 2,499</p>
+</div>
+<span class="bg-surface-variant border-2 border-on-background px-2 py-1 font-label-caps text-label-caps text-on-surface-variant -rotate-2">正在冷静</span>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button class="bg-surface border-2 border-on-background text-on-background font-label-caps text-label-caps py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex justify-center items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">analytics</span> 重新分析
+                    </button>
+<button class="bg-primary-container border-2 border-on-background text-on-primary-container font-label-caps text-label-caps py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
+                        决定不买
+                    </button>
+</div>
+</article>
+<!-- Item 2: Keyboard (Pinned Note Style, Think Again) -->
+<article class="bg-secondary-container/20 border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 -rotate-[1.5deg] relative flex gap-4 items-center">
+<!-- Pin -->
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-secondary border-2 border-on-background rounded-full shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] z-10"></div>
+<div class="w-20 h-20 shrink-0 border-2 border-on-background bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover mix-blend-luminosity" data-alt="A top-down shot of a mechanical keyboard with coral and cream keycaps on a stark white desk, harsh overhead lighting creating sharp offset shadows, magazine collage style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0iP6Wim02rR8TfLrhHB1XPDS39UVYoF6_reMx-JIu4Hoeql5zOYFT9ndeJX2sfw-X-T9hL0S32jE3rEu-w-rNqb0593193FW7-J3ZsyrAoIbh5_AwWuVlRrBrY3Bs6bwQTA-UdYERWSS7G45-Ekv-IfLSvip2afvU-n5-ZG4kyqkKiAWvGQ_TULr0_6fez75sHf9D1BucZbP8hbNfQNlqK2wXM2xaLcCIGaJV_oZw7UVpKz-zifsRgw2e0sFrjxj9wa1YeZVqoHbW"/>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-start">
+<span class="bg-secondary text-on-secondary font-label-caps text-label-caps px-2 py-0.5 border-2 border-on-background -rotate-2 inline-block shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">2 DAYS LEFT</span>
+</div>
+<h3 class="font-headline-md text-[20px] leading-[28px] text-on-background mt-2">客制化机械键盘</h3>
+<p class="font-note-handwritten text-note-handwritten text-secondary mt-1">再想想...</p>
+</div>
+</article>
+<!-- Item 3: Action Camera (Receipt Style, Given up) -->
+<article class="bg-surface-variant border-2 border-on-background border-dashed shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 rotate-[0.5deg] opacity-75 grayscale hover:grayscale-0 transition-all duration-300">
+<div class="flex justify-between items-center border-b-2 border-on-background border-dotted pb-3 mb-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline text-[32px]">videocam</span>
+<div>
+<h3 class="font-body-lg text-body-lg font-bold line-through decoration-2 text-on-surface-variant">GoPro 运动相机</h3>
+<p class="font-note-handwritten text-note-handwritten text-outline mt-0.5">¥ 3,199</p>
+</div>
+</div>
+<div class="bg-surface border-2 border-on-background px-2 py-1 font-label-caps text-label-caps text-on-surface-variant rotate-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                        已放弃
+                    </div>
+</div>
+<button class="w-full bg-background border-2 border-on-background text-on-background font-label-caps text-label-caps py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">history</span> 查看判断记录
+                </button>
+</article>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-end px-4 pb-6 pt-2 bg-background/95 backdrop-blur-sm border-t-2 border-on-background shadow-[0px_-4px_0px_0px_rgba(0,0,0,1)]">
+<!-- Active Tab: REFLECT -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rotate-1 px-3 py-1 hover:bg-tertiary-container active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label-caps text-label-caps mt-1">REFLECT</span>
+</button>
+<!-- Inactive Tab: MUSEUM -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant -rotate-1 hover:bg-tertiary-container active:scale-95 transition-transform px-3 py-1 border-2 border-transparent">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+<span class="font-label-caps text-label-caps mt-1">MUSEUM</span>
+</button>
+<!-- Inactive Tab: WISHLIST -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant -rotate-1 hover:bg-tertiary-container active:scale-95 transition-transform px-3 py-1 border-2 border-transparent">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">favorite</span>
+<span class="font-label-caps text-label-caps mt-1">WISHLIST</span>
+</button>
+<!-- Inactive Tab: ME -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant -rotate-1 hover:bg-tertiary-container active:scale-95 transition-transform px-3 py-1 border-2 border-transparent">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">face_6</span>
+<span class="font-label-caps text-label-caps mt-1">ME</span>
+</button>
+</nav>
+</body></html>

@@ -1,0 +1,32 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "先别买应用主模块"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "先别买应用入口"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "先别买"
+    },
+    {
+      "name": "tab_home",
+      "value": "首页"
+    },
+    {
+      "name": "tab_cooling",
+      "value": "冷静池"
+    },
+    {
+      "name": "tab_report",
+      "value": "战报"
+    },
+    {
+      "name": "tab_profile",
+      "value": "我的"
+    }
+  ]
+}

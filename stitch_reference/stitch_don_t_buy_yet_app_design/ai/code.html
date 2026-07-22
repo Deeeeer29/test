@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Analysis - 先别买</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500&amp;family=Epilogue:wght@700;800&amp;family=Work+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#71d7cd",
+                        "tertiary": "#006a63",
+                        "on-primary-fixed": "#241a00",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#735c00",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#d0c6ae",
+                        "primary-fixed-dim": "#ebc23e",
+                        "on-secondary-fixed": "#3a0a00",
+                        "primary-container": "#ffd54f",
+                        "surface-container": "#f0eee9",
+                        "on-tertiary-fixed": "#00201d",
+                        "surface-variant": "#e4e2dd",
+                        "secondary-fixed": "#ffdbd0",
+                        "surface": "#fbf9f4",
+                        "background": "#fbf9f4",
+                        "inverse-surface": "#30312e",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f5f3ee",
+                        "on-error": "#ffffff",
+                        "outline": "#7f7662",
+                        "tertiary-container": "#84eadf",
+                        "on-surface-variant": "#4d4634",
+                        "surface-container-high": "#eae8e3",
+                        "surface-dim": "#dbdad5",
+                        "on-primary-fixed-variant": "#574500",
+                        "primary": "#735c00",
+                        "on-tertiary-fixed-variant": "#00504a",
+                        "tertiary-fixed": "#8ef4e9",
+                        "secondary-fixed-dim": "#ffb59f",
+                        "surface-container-highest": "#e4e2dd",
+                        "on-background": "#1b1c19",
+                        "secondary": "#ac3509",
+                        "on-tertiary-container": "#006a63",
+                        "on-secondary-container": "#631800",
+                        "on-surface": "#1b1c19",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#fe6f42",
+                        "inverse-on-surface": "#f2f1ec",
+                        "surface-tint": "#735c00",
+                        "primary-fixed": "#ffe087",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#ebc23e",
+                        "on-secondary-fixed-variant": "#852300",
+                        "surface-bright": "#fbf9f4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "20px",
+                        "element-gap": "16px",
+                        "base": "8px",
+                        "tilt-angle": "2deg"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Work Sans"],
+                        "label-caps": ["Work Sans"],
+                        "display-lg": ["Epilogue"],
+                        "body-lg": ["Work Sans"],
+                        "headline-lg": ["Epilogue"],
+                        "note-handwritten": ["Bricolage Grotesque"],
+                        "headline-md": ["Epilogue"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["30px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "note-handwritten": ["16px", { "lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "30px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .animate-spin-slow {
+            animation: spin 20s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(-2deg); }
+            50% { transform: translateY(-10px) rotate(-1deg); }
+            100% { transform: translateY(0px) rotate(-2deg); }
+        }
+        /* Perforated edge effect for receipt strips */
+        .perforated-bottom {
+            background-image: radial-gradient(circle at 10px 100%, transparent 4px, #fbf9f4 4px);
+            background-size: 20px 100%;
+            background-repeat: repeat-x;
+            background-position: bottom;
+        }
+        .texture-bg {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col relative md:hidden texture-bg pb-[100px] pt-[80px]">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background border-b-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex justify-between items-center px-container-padding py-base max-w-md mx-auto left-0 right-0">
+<span class="material-symbols-outlined text-primary cursor-pointer active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">edit_note</span>
+<h1 class="font-display-lg text-[28px] text-primary -rotate-2">先别买</h1>
+<span class="material-symbols-outlined text-primary cursor-pointer active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">account_circle</span>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow px-container-padding w-full max-w-md mx-auto flex flex-col items-center">
+<!-- Headline -->
+<h2 class="font-headline-lg text-on-background mt-8 mb-4 text-center">“我替你冷静一下。”</h2>
+<!-- Central Graphic Area: Polaroid + Rotating Notes -->
+<div class="relative w-full aspect-square max-w-[320px] flex items-center justify-center my-6">
+<!-- Rotating Notes Ring -->
+<div class="absolute w-[120%] h-[120%] animate-spin-slow origin-center pointer-events-none">
+<!-- Note 1 -->
+<div class="absolute top-4 left-4 bg-surface border-2 border-on-background p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -rotate-12 w-32">
+<p class="font-note-handwritten text-on-surface text-sm leading-tight">心动是真的，<br/>但需求不一定。</p>
+</div>
+<!-- Note 2 -->
+<div class="absolute bottom-8 right-2 bg-primary-container border-2 border-on-background p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rotate-12">
+<p class="font-note-handwritten text-on-primary-container text-sm">别急，<br/>我不只是看价格。</p>
+</div>
+<!-- Note 3 -->
+<div class="absolute top-1/2 -right-8 bg-surface-container-low border-2 border-on-background p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rotate-[25deg]">
+<p class="font-note-handwritten text-on-surface-variant text-sm whitespace-nowrap">正在把想买和该买分开。</p>
+</div>
+</div>
+<!-- Central Product Polaroid Cutout -->
+<div class="relative z-10 w-48 bg-surface-container-lowest border-2 border-on-background p-3 flex flex-col shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] animate-float">
+<div class="w-full aspect-square border-2 border-on-background overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A trendy, minimalist product isolated in the center of the frame, styled like a physical cutout placed on a scrapbook page. The background of the image itself is a flat, stark contrasting color to highlight the item's desirability. The overall aesthetic mimics a professional high-end editorial product shot found in an avant-garde lifestyle magazine." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCda3Mzi1iv8o_JEOHCPaGGTDFjPqDFnbz2rD0kceoIiqj94gibIBXwjErg7M9L8MjZNjWzQRrYy_z6H9DLoJ_XTpxRfO5_M-QD5GfeJyFhWFwEIcDxYXRKi9nl21uOj8r81Uqpj0fkp97nKRhAyzQ6GyvhTCp7QydpbuxJDTHsyDxLZE6V9hzVU4XWqvjkYzRuBgJC-8fZoYWSdGt1nvM__s50ZVzbaP343SVOaHg0LZBZ4adN4DKxWqM9yVqC9-pFP5ZoBFpctbvn"/>
+</div>
+<div class="w-full pt-3 pb-1 border-t-2 border-dashed border-outline-variant mt-3 flex justify-center items-center">
+<span class="material-symbols-outlined text-primary text-3xl animate-pulse">generating_tokens</span>
+</div>
+</div>
+</div>
+<!-- Analysis Stages (Receipt Strips) -->
+<div class="w-full flex flex-col gap-4 mt-10">
+<!-- Stage 1: Complete -->
+<div class="w-full bg-surface border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-1 p-4 flex items-center relative perforated-bottom">
+<span class="material-symbols-outlined text-tertiary mr-3" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-md font-bold text-on-background flex-grow">正在核对真实需求</span>
+</div>
+<!-- Stage 2: In Progress -->
+<div class="w-full bg-primary-container border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -rotate-1 p-4 flex items-center relative perforated-bottom">
+<span class="material-symbols-outlined text-on-primary-container mr-3 animate-spin">progress_activity</span>
+<span class="font-body-md font-bold text-on-primary-container flex-grow">正在查看预算压力</span>
+</div>
+<!-- Stage 3: Pending -->
+<div class="w-full bg-surface-container border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-[0.5deg] p-4 flex items-center relative opacity-70">
+<span class="material-symbols-outlined text-outline mr-3">hourglass_empty</span>
+<span class="font-body-md font-bold text-on-surface-variant flex-grow">正在计算重复购买和后悔风险</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-end px-4 pb-6 pt-2 bg-background/95 backdrop-blur-sm border-t-2 border-on-background shadow-[0px_-4px_0px_0px_rgba(0,0,0,1)] max-w-md mx-auto right-0">
+<!-- REFLECT (Active) -->
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rotate-1 px-3 py-1 cursor-default">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label-caps mt-1">REFLECT</span>
+</div>
+<!-- MUSEUM (Inactive) -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant -rotate-1 hover:bg-tertiary-container hover:text-on-tertiary-container hover:border-2 hover:border-on-background hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] px-3 py-1 active:scale-95 transition-all cursor-pointer">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-caps mt-1">MUSEUM</span>
+</div>
+<!-- WISHLIST (Inactive) -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant -rotate-1 hover:bg-tertiary-container hover:text-on-tertiary-container hover:border-2 hover:border-on-background hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] px-3 py-1 active:scale-95 transition-all cursor-pointer">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-caps mt-1">WISHLIST</span>
+</div>
+<!-- ME (Inactive) -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant -rotate-1 hover:bg-tertiary-container hover:text-on-tertiary-container hover:border-2 hover:border-on-background hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] px-3 py-1 active:scale-95 transition-all cursor-pointer">
+<span class="material-symbols-outlined">face_6</span>
+<span class="font-label-caps mt-1">ME</span>
+</div>
+</nav>
+</body></html>

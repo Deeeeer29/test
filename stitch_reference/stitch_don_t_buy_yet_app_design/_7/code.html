@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>先别买 - Me</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800&amp;family=Work+Sans:wght@400;700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Subtle paper noise overlay for the editorial feel */
+        .paper-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#71d7cd",
+                      "tertiary": "#006a63",
+                      "on-primary-fixed": "#241a00",
+                      "error-container": "#ffdad6",
+                      "on-primary-container": "#735c00",
+                      "on-tertiary": "#ffffff",
+                      "outline-variant": "#d0c6ae",
+                      "primary-fixed-dim": "#ebc23e",
+                      "on-secondary-fixed": "#3a0a00",
+                      "primary-container": "#ffd54f",
+                      "surface-container": "#f0eee9",
+                      "on-tertiary-fixed": "#00201d",
+                      "surface-variant": "#e4e2dd",
+                      "secondary-fixed": "#ffdbd0",
+                      "surface": "#fbf9f4",
+                      "background": "#fbf9f4",
+                      "inverse-surface": "#30312e",
+                      "error": "#ba1a1a",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-low": "#f5f3ee",
+                      "on-error": "#ffffff",
+                      "outline": "#7f7662",
+                      "tertiary-container": "#84eadf",
+                      "on-surface-variant": "#4d4634",
+                      "surface-container-high": "#eae8e3",
+                      "surface-dim": "#dbdad5",
+                      "on-primary-fixed-variant": "#574500",
+                      "primary": "#735c00",
+                      "on-tertiary-fixed-variant": "#00504a",
+                      "tertiary-fixed": "#8ef4e9",
+                      "secondary-fixed-dim": "#ffb59f",
+                      "surface-container-highest": "#e4e2dd",
+                      "on-background": "#1b1c19",
+                      "secondary": "#ac3509",
+                      "on-tertiary-container": "#006a63",
+                      "on-secondary-container": "#631800",
+                      "on-surface": "#1b1c19",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#fe6f42",
+                      "inverse-on-surface": "#f2f1ec",
+                      "surface-tint": "#735c00",
+                      "primary-fixed": "#ffe087",
+                      "on-secondary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#ebc23e",
+                      "on-secondary-fixed-variant": "#852300",
+                      "surface-bright": "#fbf9f4"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-padding": "20px",
+                      "element-gap": "16px",
+                      "base": "8px",
+                      "tilt-angle": "2deg"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Work Sans"
+                      ],
+                      "label-caps": [
+                              "Work Sans"
+                      ],
+                      "display-lg": [
+                              "Epilogue"
+                      ],
+                      "body-lg": [
+                              "Work Sans"
+                      ],
+                      "headline-lg": [
+                              "Epilogue"
+                      ],
+                      "note-handwritten": [
+                              "Bricolage Grotesque"
+                      ],
+                      "headline-md": [
+                              "Epilogue"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "40px",
+                              {
+                                      "lineHeight": "48px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "note-handwritten": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "30px",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen pb-24 selection:bg-primary-container selection:text-on-primary-container">
+<div class="paper-texture"></div>
+<!-- TopAppBar from JSON -->
+<header class="bg-background text-primary w-full px-container-padding py-base max-w-md mx-auto flex justify-between items-center border-b-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sticky top-0 z-40">
+<button aria-label="Menu" class="w-10 h-10 flex items-center justify-center border-2 border-transparent hover:bg-surface-variant active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all rounded-full">
+<span class="material-symbols-outlined">edit_note</span>
+</button>
+<h1 class="font-display-lg text-primary -rotate-2 leading-none" style="font-size: 32px;">先别买</h1>
+<button aria-label="Profile" class="w-10 h-10 flex items-center justify-center border-2 border-transparent hover:bg-surface-variant active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all rounded-full">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-md mx-auto px-container-padding pt-8 pb-12 overflow-x-hidden">
+<!-- Page Headline -->
+<div class="mb-10 text-center">
+<h2 class="font-headline-md text-headline-md text-on-background mb-2 tracking-tight">让它更懂你，<br/>不是更了解你的隐私。</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Customize your internal monologue.</p>
+</div>
+<!-- Section 1: AI Persona -->
+<section class="bg-surface-container-lowest border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-5 mb-8 -rotate-1 relative">
+<div class="absolute -top-3 -right-3 bg-secondary-container text-on-secondary-container px-2 py-1 border-2 border-on-background font-note-handwritten text-note-handwritten text-sm rotate-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                Vibe Check
+            </div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<h3 class="font-headline-md text-[20px] leading-[26px]">AI 说话人格</h3>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex flex-col items-start p-3 bg-primary-container text-on-primary-container border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all rounded-none text-left">
+<span class="font-label-caps text-label-caps mb-1 opacity-80">SELECTED</span>
+<span class="font-headline-md text-[18px]">毒舌闺蜜</span>
+<span class="font-body-md text-[14px] leading-tight mt-1 opacity-90">Brutally honest.</span>
+</button>
+<button class="flex flex-col items-start p-3 bg-surface hover:bg-surface-variant border-2 border-on-background active:translate-x-[2px] active:translate-y-[2px] transition-all rounded-none text-left">
+<span class="font-label-caps text-label-caps mb-1 opacity-50 text-transparent">OPTION</span>
+<span class="font-headline-md text-[18px]">温柔搭子</span>
+<span class="font-body-md text-[14px] leading-tight mt-1 text-on-surface-variant">Gentle support.</span>
+</button>
+<button class="flex flex-col items-start p-3 bg-surface hover:bg-surface-variant border-2 border-on-background active:translate-x-[2px] active:translate-y-[2px] transition-all rounded-none text-left">
+<span class="font-label-caps text-label-caps mb-1 opacity-50 text-transparent">OPTION</span>
+<span class="font-headline-md text-[18px]">严厉会计</span>
+<span class="font-body-md text-[14px] leading-tight mt-1 text-on-surface-variant">Cold numbers.</span>
+</button>
+<button class="flex flex-col items-start p-3 bg-surface hover:bg-surface-variant border-2 border-on-background active:translate-x-[2px] active:translate-y-[2px] transition-all rounded-none text-left">
+<span class="font-label-caps text-label-caps mb-1 opacity-50 text-transparent">OPTION</span>
+<span class="font-headline-md text-[18px]">反向销售</span>
+<span class="font-body-md text-[14px] leading-tight mt-1 text-on-surface-variant">Talks you out of it.</span>
+</button>
+</div>
+</section>
+<!-- Section 2: Monthly Budget -->
+<section class="bg-surface-container-lowest border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-5 mb-8 rotate-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<h3 class="font-headline-md text-[20px] leading-[26px]">每月可支配预算</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Set a soft limit to trigger extra reflection warnings.</p>
+<div class="relative flex items-end">
+<span class="font-headline-md text-headline-md text-on-surface-variant mr-2 mb-1">¥</span>
+<input aria-label="Monthly Budget Input" class="w-full bg-transparent border-0 border-b-4 border-on-background font-display-lg text-[32px] px-0 py-1 focus:ring-0 focus:border-primary text-on-background" type="number" value="3000"/>
+<button class="absolute right-0 bottom-2 text-primary hover:text-on-background transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+</section>
+<!-- Section 3: Owned Items -->
+<section class="bg-surface-container-lowest border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-5 mb-8">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<h3 class="font-headline-md text-[20px] leading-[26px]">我已有的物品</h3>
+</div>
+<button aria-label="Add Item" class="bg-primary-container text-on-primary-container w-8 h-8 flex items-center justify-center border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all rounded-full">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<p class="font-body-md text-sm text-on-surface-variant mb-4">Remind me I already have these before I buy similar things.</p>
+<div class="space-y-3">
+<!-- Tape strip style item -->
+<div class="bg-tertiary-container text-on-tertiary-container px-4 py-2 border-2 border-on-background flex justify-between items-center -rotate-1 relative shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+<div class="absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-8 bg-background border-r-2 border-on-background rounded-r-full"></div>
+<span class="font-note-handwritten text-note-handwritten">Sony WH-1000XM4 Headphones</span>
+<button class="text-on-tertiary-container opacity-60 hover:opacity-100"><span class="material-symbols-outlined text-sm">close</span></button>
+</div>
+<div class="bg-secondary-fixed text-on-secondary-fixed px-4 py-2 border-2 border-on-background flex justify-between items-center rotate-1 relative shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+<div class="absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-8 bg-background border-r-2 border-on-background rounded-r-full"></div>
+<span class="font-note-handwritten text-note-handwritten">3 Unread Biographies</span>
+<button class="text-on-secondary-fixed opacity-60 hover:opacity-100"><span class="material-symbols-outlined text-sm">close</span></button>
+</div>
+</div>
+</section>
+<!-- Section 4: Cool-down Preference -->
+<section class="bg-surface-container-lowest border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-5 mb-8 -rotate-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">hourglass_top</span>
+<h3 class="font-headline-md text-[20px] leading-[26px]">冷静期偏好</h3>
+</div>
+<div class="flex gap-2 overflow-x-auto pb-2 snap-x">
+<button class="flex-shrink-0 px-4 py-2 bg-surface border-2 border-on-background hover:bg-surface-variant active:translate-x-[1px] active:translate-y-[1px] transition-all font-label-caps text-label-caps snap-start">
+                    6 HOURS
+                </button>
+<button class="flex-shrink-0 px-4 py-2 bg-primary-container text-on-primary-container border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all font-label-caps text-label-caps snap-start">
+                    24 HOURS
+                </button>
+<button class="flex-shrink-0 px-4 py-2 bg-surface border-2 border-on-background hover:bg-surface-variant active:translate-x-[1px] active:translate-y-[1px] transition-all font-label-caps text-label-caps snap-start">
+                    3 DAYS
+                </button>
+<button class="flex-shrink-0 px-4 py-2 bg-surface border-2 border-on-background hover:bg-surface-variant active:translate-x-[1px] active:translate-y-[1px] transition-all font-label-caps text-label-caps snap-start flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span> AUTO
+                </button>
+</div>
+</section>
+<!-- Section 5: Privacy & Data -->
+<section class="bg-surface-container-lowest border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-5 mb-8">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-on-background">lock</span>
+<h3 class="font-headline-md text-[20px] leading-[26px]">隐私与数据</h3>
+</div>
+<p class="font-body-md text-sm text-on-surface-variant mb-6">Your reflections are yours. We don't sell your impulse data.</p>
+<div class="space-y-4">
+<button class="w-full flex items-center justify-between py-2 border-b-2 border-surface-variant hover:border-on-background transition-colors group">
+<span class="font-body-lg text-[16px] font-bold">Export My Data</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-full flex items-center justify-between py-2 border-b-2 border-surface-variant hover:border-on-background transition-colors group text-error">
+<span class="font-body-lg text-[16px] font-bold">Clear All History</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">delete</span>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar from JSON -->
+<!-- Applying shell visibility logic: Top-level destination -> YES. Show nav. -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-end px-4 pb-6 pt-2 bg-background/95 backdrop-blur-sm border-t-2 border-on-background max-w-md mx-auto right-0">
+<!-- Inactive: REFLECT -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant -rotate-1 hover:bg-tertiary-container active:scale-95 transition-transform px-2 py-1 rounded w-16">
+<span class="material-symbols-outlined mb-1">auto_stories</span>
+<span class="font-label-caps text-label-caps text-[10px]">REFLECT</span>
+</button>
+<!-- Inactive: MUSEUM -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant -rotate-1 hover:bg-tertiary-container active:scale-95 transition-transform px-2 py-1 rounded w-16">
+<span class="material-symbols-outlined mb-1">receipt_long</span>
+<span class="font-label-caps text-label-caps text-[10px]">MUSEUM</span>
+</button>
+<!-- Inactive: WISHLIST -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant -rotate-1 hover:bg-tertiary-container active:scale-95 transition-transform px-2 py-1 rounded w-16">
+<span class="material-symbols-outlined mb-1">favorite</span>
+<span class="font-label-caps text-label-caps text-[10px]">WISHLIST</span>
+</button>
+<!-- Active: ME (Matches current screen intent) -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rotate-1 px-3 py-1 hover:bg-tertiary-container active:scale-95 transition-transform w-16">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">face_6</span>
+<span class="font-label-caps text-label-caps text-[10px]">ME</span>
+</button>
+</nav>
+</body></html>

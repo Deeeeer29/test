@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>把心动交出来 - Product Import Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500&amp;family=Epilogue:wght@700;800&amp;family=Work+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#71d7cd",
+                    "tertiary": "#006a63",
+                    "on-primary-fixed": "#241a00",
+                    "error-container": "#ffdad6",
+                    "on-primary-container": "#735c00",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#d0c6ae",
+                    "primary-fixed-dim": "#ebc23e",
+                    "on-secondary-fixed": "#3a0a00",
+                    "primary-container": "#ffd54f",
+                    "surface-container": "#f0eee9",
+                    "on-tertiary-fixed": "#00201d",
+                    "surface-variant": "#e4e2dd",
+                    "secondary-fixed": "#ffdbd0",
+                    "surface": "#fbf9f4",
+                    "background": "#fbf9f4",
+                    "inverse-surface": "#30312e",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#f5f3ee",
+                    "on-error": "#ffffff",
+                    "outline": "#7f7662",
+                    "tertiary-container": "#84eadf",
+                    "on-surface-variant": "#4d4634",
+                    "surface-container-high": "#eae8e3",
+                    "surface-dim": "#dbdad5",
+                    "on-primary-fixed-variant": "#574500",
+                    "primary": "#735c00",
+                    "on-tertiary-fixed-variant": "#00504a",
+                    "tertiary-fixed": "#8ef4e9",
+                    "secondary-fixed-dim": "#ffb59f",
+                    "surface-container-highest": "#e4e2dd",
+                    "on-background": "#1b1c19",
+                    "secondary": "#ac3509",
+                    "on-tertiary-container": "#006a63",
+                    "on-secondary-container": "#631800",
+                    "on-surface": "#1b1c19",
+                    "on-error-container": "#93000a",
+                    "secondary-container": "#fe6f42",
+                    "inverse-on-surface": "#f2f1ec",
+                    "surface-tint": "#735c00",
+                    "primary-fixed": "#ffe087",
+                    "on-secondary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#ebc23e",
+                    "on-secondary-fixed-variant": "#852300",
+                    "surface-bright": "#fbf9f4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-padding": "20px",
+                    "element-gap": "16px",
+                    "base": "8px",
+                    "tilt-angle": "2deg"
+            },
+            "fontFamily": {
+                    "body-md": [
+                            "Work Sans"
+                    ],
+                    "label-caps": [
+                            "Work Sans"
+                    ],
+                    "display-lg": [
+                            "Epilogue"
+                    ],
+                    "body-lg": [
+                            "Work Sans"
+                    ],
+                    "headline-lg": [
+                            "Epilogue"
+                    ],
+                    "note-handwritten": [
+                            "Bricolage Grotesque"
+                    ],
+                    "headline-md": [
+                            "Epilogue"
+                    ]
+            },
+            "fontSize": {
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "display-lg": [
+                            "40px",
+                            {
+                                    "lineHeight": "48px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "800"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "note-handwritten": [
+                            "16px",
+                            {
+                                    "lineHeight": "22px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "30px",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+        },
+        },
+      }
+    </script>
+<style>
+        /* Texture overlay for the collage feel */
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        
+        /* Neobrutalist interaction styles */
+        .btn-press:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,1) !important;
+        }
+        
+        .upload-press:active {
+            transform: scale(0.98);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-[100px] selection:bg-primary-container selection:text-on-primary-container">
+<div class="texture-overlay"></div>
+<!-- TopAppBar from JSON -->
+<header class="bg-background dark:bg-background docked full-width top-0 border-b-2 border-on-background dark:border-on-background-variant shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-40 sticky">
+<div class="flex justify-between items-center w-full px-container-padding py-base max-w-md mx-auto">
+<button class="hover:bg-surface-variant dark:hover:bg-surface-container-highest active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all p-2 border-2 border-transparent rounded">
+<span class="material-symbols-outlined text-outline dark:text-outline-variant">edit_note</span>
+</button>
+<h1 class="font-display-lg text-display-lg-mobile text-primary dark:text-primary-fixed-dim -rotate-2">
+                先别买
+            </h1>
+<button class="hover:bg-surface-variant dark:hover:bg-surface-container-highest active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all p-2 border-2 border-transparent rounded">
+<span class="material-symbols-outlined text-outline dark:text-outline-variant">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full max-w-md mx-auto px-container-padding pt-8 pb-12 flex flex-col gap-8 relative overflow-hidden">
+<!-- Decorative background element for collage feel -->
+<div class="absolute -right-12 -top-10 w-48 h-48 bg-secondary-fixed rounded-full opacity-50 mix-blend-multiply blur-2xl -z-10"></div>
+<div class="absolute -left-8 top-1/3 w-32 h-32 bg-primary-fixed rounded-full opacity-40 mix-blend-multiply blur-xl -z-10"></div>
+<!-- Header Section -->
+<div class="flex flex-col gap-2 rotate-[-1deg] relative z-10">
+<h2 class="font-headline-lg text-headline-lg text-on-background">
+                把心动交出来
+            </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[280px]">
+                截图、链接，或者你脑子里挥之不去的那件东西。
+            </p>
+<!-- Washi tape accent -->
+<div class="absolute -top-4 -left-2 w-16 h-4 bg-tertiary/20 -rotate-3 border border-black/10"></div>
+</div>
+<!-- Import Methods Container -->
+<div class="flex flex-col gap-6 w-full relative z-10">
+<!-- 1. Upload Screenshot (Primary) -->
+<button class="w-full bg-surface-container-lowest border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-sm p-8 flex flex-col items-center justify-center gap-4 relative overflow-hidden group hover:bg-surface-bright transition-colors upload-press rotate-[1deg]">
+<!-- Hand-placed stamp annotation -->
+<div class="absolute top-3 right-3 bg-secondary-container text-on-secondary-container font-label-caps text-label-caps px-2 py-1 border border-on-background rotate-6 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
+                    RECOMMENDED
+                </div>
+<div class="w-16 h-16 rounded-full bg-primary-container border-2 border-on-background flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">add_a_photo</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-headline-md text-headline-md text-on-background">上传商品截图</span>
+<span class="font-body-md text-body-md text-outline">相册 / 拍照</span>
+</div>
+<!-- Collage texture detail -->
+<div class="absolute bottom-0 left-0 w-full h-2 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuMSIvPgo8L3N2Zz4=')]"></div>
+</button>
+<!-- Handwritten note floating near upload -->
+<div class="relative left-4 -mt-2 -rotate-3 z-20 flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-sm translate-y-1">arrow_upward</span>
+<p class="font-note-handwritten text-note-handwritten text-secondary">
+                    商品名和价格拍清楚一点。
+                </p>
+</div>
+<!-- 2. Paste Link -->
+<div class="w-full bg-surface-container border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-stretch -rotate-[0.5deg]">
+<div class="px-4 border-r-2 border-on-background flex items-center justify-center bg-surface-variant">
+<span class="material-symbols-outlined">link</span>
+</div>
+<input class="w-full bg-transparent border-none focus:ring-0 font-body-md text-body-md placeholder:text-outline py-4 px-3" placeholder="粘贴商品链接" type="text"/>
+<button class="bg-primary-container px-4 border-l-2 border-on-background font-label-caps text-label-caps border-b-0 border-t-0 border-r-0 hover:bg-primary-fixed btn-press transition-colors">
+                    PARSE
+                </button>
+</div>
+<!-- 3. Manual Entry -->
+<button class="w-full bg-surface-container-low border-2 border-on-background border-dashed px-4 py-4 flex items-center justify-center gap-2 hover:bg-surface-container hover:border-solid hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all rotate-[0.5deg]">
+<span class="material-symbols-outlined text-outline">edit_square</span>
+<span class="font-body-lg text-body-lg text-on-surface-variant">手动输入商品信息</span>
+</button>
+</div>
+<!-- Bottom Privacy Note -->
+<div class="mt-8 flex items-center justify-center gap-2 opacity-70">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<p class="font-label-caps text-[10px] uppercase text-on-surface-variant text-center max-w-[250px]">
+                图片只用于识别商品信息，不会读取你的购物账户。
+            </p>
+</div>
+</main>
+<!-- BottomNavBar from JSON (Semantic Mapping: 'REFLECT' intent as this is an input for reflection) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-end px-4 pb-6 pt-2 bg-background/95 backdrop-blur-sm border-t-2 border-on-background md:hidden">
+<!-- Tab 1: REFLECT (Active state logic applied based on intent) -->
+<button class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rotate-1 px-3 py-1 hover:bg-tertiary-container dark:hover:bg-tertiary active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label-caps text-label-caps mt-1">REFLECT</span>
+</button>
+<!-- Tab 2: MUSEUM -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant -rotate-1 hover:bg-tertiary-container dark:hover:bg-tertiary active:scale-95 transition-transform p-2">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-caps text-label-caps mt-1">MUSEUM</span>
+</button>
+<!-- Tab 3: WISHLIST -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant -rotate-1 hover:bg-tertiary-container dark:hover:bg-tertiary active:scale-95 transition-transform p-2">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-caps text-label-caps mt-1">WISHLIST</span>
+</button>
+<!-- Tab 4: ME -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant -rotate-1 hover:bg-tertiary-container dark:hover:bg-tertiary active:scale-95 transition-transform p-2">
+<span class="material-symbols-outlined">face_6</span>
+<span class="font-label-caps text-label-caps mt-1">ME</span>
+</button>
+</nav>
+<!-- Decorative side navigation container for md+ screens (hidden on mobile) to fulfill platform anchor -->
+<div class="hidden md:flex fixed top-1/4 left-4 flex-col gap-4 z-50">
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rotate-1 p-3 hover:bg-tertiary-container transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant bg-surface p-3 border-2 border-transparent hover:border-on-background hover:bg-tertiary-container transition-all">
+<span class="material-symbols-outlined">receipt_long</span>
+</button>
+</div>
+</body></html>
