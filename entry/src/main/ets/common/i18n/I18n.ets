@@ -200,6 +200,40 @@ export class I18n {
     if (key === 'noSummaryContent') { return '暂无总结内容'; }
     if (key === 'noSummaryContentDesc') { return '当前没有可展示的结论、决策、待办或待确认事项。'; }
     if (key === 'saveSummaryFailed') { return '总结保存失败'; }
+    if (key === 'checkingLogin') { return '正在检查登录状态'; }
+    if (key === 'checkingLoginDesc') { return '正在读取本地凭证并恢复用户信息。'; }
+    if (key === 'restoreFailed') { return '登录状态恢复失败'; }
+    if (key === 'restoreFailedDesc') { return '无法验证当前登录状态，请检查服务后重试。'; }
+    if (key === 'loginSubtitle') { return '请先登录后使用会议助手。V1.0 当前支持游客登录。'; }
+    if (key === 'guestLogin') { return '游客登录'; }
+    if (key === 'huaweiLogin') { return '华为账号登录'; }
+    if (key === 'phoneLogin') { return '手机号登录'; }
+    if (key === 'phoneNumber') { return '手机号'; }
+    if (key === 'smsCode') { return '验证码'; }
+    if (key === 'sendCode') { return '发送验证码'; }
+    if (key === 'sendingCode') { return '发送中'; }
+    if (key === 'loginLoading') { return '登录中'; }
+    if (key === 'loginFailed') { return '登录失败，请重试'; }
+    if (key === 'loginSucceeded') { return '登录成功'; }
+    if (key === 'huaweiReserved') { return '华为账号登录入口已预留，后续接入真实账号能力。'; }
+    if (key === 'loginMethodUnavailable') { return '该登录方式暂未开放'; }
+    if (key === 'codeSent') { return '验证码已发送'; }
+    if (key === 'codeSendFailed') { return '验证码发送失败'; }
+    if (key === 'phoneRequired') { return '请输入有效手机号'; }
+    if (key === 'codeRequired') { return '请输入验证码'; }
+    if (key === 'agreementPlaceholder') { return '我已了解用户协议和隐私政策入口后续补充。'; }
+    if (key === 'agreementReserved') { return '当前版本暂不强制协议勾选，状态已预留以便后续接入。'; }
+    if (key === 'sessionExpired') { return '登录已失效，请重新登录'; }
+    if (key === 'chooseAvatar') { return '选择头像'; }
+    if (key === 'uploadingAvatar') { return '上传头像中'; }
+    if (key === 'avatarUploaded') { return '头像已更新'; }
+    if (key === 'avatarUploadFailed') { return '头像上传失败，已保留原头像'; }
+    if (key === 'avatarPreview') { return '头像将上传到后端，资料中只保存头像地址。'; }
+    if (key === 'saving') { return '保存中'; }
+    if (key === 'loggingOut') { return '退出中'; }
+    if (key === 'logoutFailedLocalCleared') { return '网络异常，已清除本地登录状态'; }
+    if (key === 'profileLoadFailed') { return '个人资料加载失败'; }
+    if (key === 'profileSaveFailed') { return '个人资料保存失败'; }
     if (key === 'pending') { return '待处理'; }
     if (key === 'inProgress') { return '进行中'; }
     if (key === 'completed') { return '已完成'; }
@@ -392,6 +426,40 @@ export class I18n {
     if (key === 'noSummaryContent') { return 'No summary content'; }
     if (key === 'noSummaryContentDesc') { return 'There are no conclusions, decisions, action items, or unresolved questions to show.'; }
     if (key === 'saveSummaryFailed') { return 'Failed to save summary'; }
+    if (key === 'checkingLogin') { return 'Checking sign-in'; }
+    if (key === 'checkingLoginDesc') { return 'Reading local credentials and restoring user information.'; }
+    if (key === 'restoreFailed') { return 'Unable to restore sign-in'; }
+    if (key === 'restoreFailedDesc') { return 'Unable to verify the current session. Check the service and retry.'; }
+    if (key === 'loginSubtitle') { return 'Sign in before using Meeting Assistant. V1.0 currently supports guest login.'; }
+    if (key === 'guestLogin') { return 'Guest login'; }
+    if (key === 'huaweiLogin') { return 'Huawei account'; }
+    if (key === 'phoneLogin') { return 'Phone login'; }
+    if (key === 'phoneNumber') { return 'Phone number'; }
+    if (key === 'smsCode') { return 'SMS code'; }
+    if (key === 'sendCode') { return 'Send code'; }
+    if (key === 'sendingCode') { return 'Sending'; }
+    if (key === 'loginLoading') { return 'Signing in'; }
+    if (key === 'loginFailed') { return 'Login failed. Please retry.'; }
+    if (key === 'loginSucceeded') { return 'Login successful'; }
+    if (key === 'huaweiReserved') { return 'Huawei account login is reserved for a later real integration.'; }
+    if (key === 'loginMethodUnavailable') { return 'This login method is not open yet.'; }
+    if (key === 'codeSent') { return 'Code sent'; }
+    if (key === 'codeSendFailed') { return 'Failed to send code'; }
+    if (key === 'phoneRequired') { return 'Enter a valid phone number'; }
+    if (key === 'codeRequired') { return 'Enter the SMS code'; }
+    if (key === 'agreementPlaceholder') { return 'I understand the user agreement and privacy policy entry will be added later.'; }
+    if (key === 'agreementReserved') { return 'Agreement confirmation is not enforced in this version; the state is reserved for later integration.'; }
+    if (key === 'sessionExpired') { return 'Session expired. Please sign in again.'; }
+    if (key === 'chooseAvatar') { return 'Choose avatar'; }
+    if (key === 'uploadingAvatar') { return 'Uploading avatar'; }
+    if (key === 'avatarUploaded') { return 'Avatar updated'; }
+    if (key === 'avatarUploadFailed') { return 'Avatar upload failed. Original avatar kept.'; }
+    if (key === 'avatarPreview') { return 'The avatar is uploaded to the backend; only the returned URL is saved in the profile.'; }
+    if (key === 'saving') { return 'Saving'; }
+    if (key === 'loggingOut') { return 'Logging out'; }
+    if (key === 'logoutFailedLocalCleared') { return 'Network error. Local sign-in state cleared.'; }
+    if (key === 'profileLoadFailed') { return 'Failed to load profile'; }
+    if (key === 'profileSaveFailed') { return 'Failed to save profile'; }
     if (key === 'pending') { return 'Pending'; }
     if (key === 'inProgress') { return 'In progress'; }
     if (key === 'completed') { return 'Completed'; }
@@ -553,6 +621,9 @@ export class I18n {
   }
 
   static answer(answer: AnswerBundle, language: AppLanguage): AnswerBundle {
+    if (answer.id !== 'answer-main' && answer.id !== 'answer-risk' && answer.id !== 'answer-architecture') {
+      return answer;
+    }
     const facts: SupportingFact[] = [
       {
         id: `${answer.id}-fact-1`,

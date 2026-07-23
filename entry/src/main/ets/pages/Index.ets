@@ -13,6 +13,7 @@ import { Meeting } from '../model/Meeting';
 import { MockAudioOutputService } from '../services/MockAudioOutputService';
 import { MockMeetingService } from '../services/MockMeetingService';
 import { MockStorageService } from '../services/MockStorageService';
+import { AuthService } from '../services/AuthService';
 
 const EMPTY_DEVICE_STATUS: DeviceStatus = {
   phone: {
@@ -45,11 +46,18 @@ struct Index {
   @StorageLink('language') language: AppLanguage = MockStorageService.getLanguage();
 
   aboutToAppear(): void {
-    if (!MockStorageService.getOnboardingStatus()) {
-      router.replaceUrl({ url: 'pages/PrivacyOnboardingPage' });
-      return;
-    }
-    this.loadHomeData();
+    MockStorageService.restorePersistedState().then((): Promise<boolean> => {
+      return AuthService.ensureAuthenticated();
+    }).then((authenticated: boolean): void => {
+      if (!authenticated) {
+        return;
+      }
+      if (!MockStorageService.getOnboardingStatus()) {
+        router.replaceUrl({ url: 'pages/PrivacyOnboardingPage' }, router.RouterMode.Single);
+        return;
+      }
+      this.loadHomeData();
+    });
   }
 
   aboutToDisappear(): void {

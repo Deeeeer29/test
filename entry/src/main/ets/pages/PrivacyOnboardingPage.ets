@@ -3,6 +3,7 @@ import { AppLanguage, I18n } from '../common/i18n/I18n';
 import { AppTheme } from '../common/theme/AppTheme';
 import { PermissionItem } from '../components/PermissionItem';
 import { SectionHeader } from '../components/SectionHeader';
+import { AuthService } from '../services/AuthService';
 import { MockStorageService } from '../services/MockStorageService';
 
 @Entry
@@ -13,6 +14,10 @@ struct PrivacyOnboardingPage {
   @State noticeOn: boolean = false;
   @State fileOn: boolean = false;
   @StorageLink('language') language: AppLanguage = MockStorageService.getLanguage();
+
+  aboutToAppear(): void {
+    AuthService.ensureAuthenticated();
+  }
 
   build() {
     Scroll() {

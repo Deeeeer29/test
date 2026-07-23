@@ -9,6 +9,7 @@ import { Meeting } from '../model/Meeting';
 import { MeetingDocument } from '../model/MeetingDocument';
 import { PredictedQuestion } from '../model/PredictedQuestion';
 import { KeyMetric, MeetingPreparation } from '../services/MeetingService';
+import { AuthService } from '../services/AuthService';
 import { MockMeetingService } from '../services/MockMeetingService';
 import { MockStorageService } from '../services/MockStorageService';
 
@@ -49,9 +50,14 @@ struct MeetingPreparationPage {
   @StorageLink('language') language: AppLanguage = MockStorageService.getLanguage();
 
   aboutToAppear(): void {
-    const params = router.getParams() as PageParams;
-    if (params && params.meetingId) { this.meetingId = params.meetingId; }
-    this.loadPreparation();
+    AuthService.ensureAuthenticated().then((authenticated: boolean): void => {
+      if (!authenticated) {
+        return;
+      }
+      const params = router.getParams() as PageParams;
+      if (params && params.meetingId) { this.meetingId = params.meetingId; }
+      this.loadPreparation();
+    });
   }
 
   aboutToDisappear(): void {

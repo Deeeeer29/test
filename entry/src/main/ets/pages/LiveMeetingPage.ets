@@ -13,12 +13,16 @@ import { TranscriptBubble } from '../components/TranscriptBubble';
 import { mockAnswer } from '../mock/MockAnswers';
 import { AnswerBundle } from '../model/AnswerBundle';
 import { Meeting } from '../model/Meeting';
+import { MeetingDocument } from '../model/MeetingDocument';
 import { TranscriptItem } from '../model/TranscriptItem';
-import { MockAIAnswerService } from '../services/MockAIAnswerService';
+import { AuthService } from '../services/AuthService';
+import { ApiAIAnswerService } from '../services/ApiAIAnswerService';
+import { IAIAnswerService } from '../services/AIAnswerService';
 import { MockAudioOutputService } from '../services/MockAudioOutputService';
 import { MockMeetingService } from '../services/MockMeetingService';
 import { MockStorageService } from '../services/MockStorageService';
 import { MockTranscriptService } from '../services/MockTranscriptService';
+import { MeetingPreparation } from '../services/MeetingService';
 import { ITranscriptService } from '../services/TranscriptService';
 
 type AnswerState = 'idle' | 'generating' | 'ready';
@@ -43,7 +47,7 @@ const EMPTY_MEETING: Meeting = {
 struct LiveMeetingPage {
   private meetingService: MockMeetingService = new MockMeetingService();
   private transcriptService: MockTranscriptService = new MockTranscriptService();
-  private answerService: MockAIAnswerService = new MockAIAnswerService();
+  private answerService: IAIAnswerService = new ApiAIAnswerService();
   private audioService: MockAudioOutputService = new MockAudioOutputService();
   private loadTimer: number = 0;
   private isLoading: boolean = false;
@@ -57,6 +61,7 @@ struct LiveMeetingPage {
   @State errorText: string = '';
   @State transcriptionState: TranscriptionState = 'not_started';
   @State answerState: AnswerState = 'idle';
+  @State answerErrorText: string = '';
   @State questionDetected: boolean = false;
   @State seconds: number = 0;
   @State answer: AnswerBundle = mockAnswer;
@@ -67,9 +72,14 @@ struct LiveMeetingPage {
   @StorageLink('language') language: AppLanguage = MockStorageService.getLanguage();
 
   aboutToAppear(): void {
-    const params = router.getParams() as PageParams;
-    if (params && params.meetingId) { this.meetingId = params.meetingId; }
-    this.loadLiveMeeting();
+    AuthService.ensureAuthenticated().then((authenticated: boolean): void => {
+      if (!authenticated) {
+        return;
+      }
+      const params = router.getParams() as PageParams;
+      if (params && params.meetingId) { this.meetingId = params.meetingId; }
+      this.loadLiveMeeting();
+    });
   }
 
   aboutToDisappear(): void {
@@ -103,6 +113,7 @@ struct LiveMeetingPage {
     this.questionDetected = false;
     this.seconds = 0;
     this.answerState = 'idle';
+    this.answerErrorText = '';
     this.answerPartCount = 0;
     this.showPreview = false;
     this.showFloating = false;
@@ -188,6 +199,7 @@ struct LiveMeetingPage {
     this.answerRequestId += 1;
     this.transcriptionState = this.transcriptService.getTranscriptionState();
     this.answerState = 'idle';
+    this.answerErrorText = '';
     this.answerPartCount = 0;
     promptAction.showToast({ message: I18n.t('transcriptionStopped', this.language) });
   }
@@ -195,17 +207,22 @@ struct LiveMeetingPage {
   private generateAnswer(): void {
     if (this.answerState === 'generating' || (this.transcriptionState !== 'transcribing' && this.transcriptionState !== 'paused')) { return; }
     this.answerState = 'generating';
+    this.answerErrorText = '';
     this.answerRequestId += 1;
     const requestId: number = this.answerRequestId;
+    const preparation: MeetingPreparation = this.meetingService.getMeetingPreparation(this.meetingId);
+    const documents: MeetingDocument[] = preparation.documents;
     this.answerService.generateAnswer({
       meetingId: this.meetingId,
       question: I18n.answerQuestion(this.language),
       context: {
         transcript: this.visibleTranscripts,
-        meeting: this.meeting
+        meeting: this.meeting,
+        documents: documents
       },
       duration: 30,
-      tone: 'professional'
+      tone: 'professional',
+      language: this.language
     }).then((answer: AnswerBundle) => {
       if (requestId !== this.answerRequestId || this.transcriptionState === 'stopped') {
         return;
@@ -237,11 +254,12 @@ struct LiveMeetingPage {
           promptAction.showToast({ message: I18n.t('answerGenerated', this.language) });
         }
       }, 900);
-    }).catch((): void => {
+    }).catch((error: Error): void => {
       if (requestId !== this.answerRequestId) {
         return;
       }
       this.answerState = 'idle';
+      this.answerErrorText = error && error.message ? error.message : I18n.t('answerGenerateFailed', this.language);
       promptAction.showToast({ message: I18n.t('answerGenerateFailed', this.language) });
     });
   }
@@ -300,6 +318,13 @@ struct LiveMeetingPage {
               if (this.questionDetected) { Text(I18n.t('questionDetected', this.language)).width('100%').padding(12).fontSize(12).fontColor(AppTheme.warningColor).backgroundColor(AppTheme.warningSoft).borderRadius(AppTheme.radiusMedium) }
               SectionHeader({ title: I18n.t('actions', this.language) })
               Button(I18n.t('helpMeAnswer', this.language)).width('100%').height(42).backgroundColor(AppTheme.accentColor).fontColor(AppTheme.primaryButtonText).enabled((this.transcriptionState === 'transcribing' || this.transcriptionState === 'paused') && this.answerState !== 'generating').onClick((): void => this.generateAnswer())
+              if (this.answerErrorText.length > 0) {
+                Column() {
+                  Text(I18n.t('answerGenerateFailed', this.language)).width('100%').fontSize(13).fontWeight(FontWeight.Medium).fontColor(AppTheme.errorColor)
+                  Text(this.answerErrorText).width('100%').margin({ top: 4 }).fontSize(12).fontColor(AppTheme.secondaryText).lineHeight(18)
+                  Button(I18n.t('retry', this.language)).width('100%').height(38).margin({ top: 10 }).backgroundColor(AppTheme.errorSoft).fontColor(AppTheme.errorColor).enabled(this.answerState !== 'generating').onClick((): void => this.generateAnswer())
+                }.width('100%').padding(12).margin({ top: 10 }).backgroundColor(AppTheme.cardBackground).border({ width: 1, color: AppTheme.errorSoft }).borderRadius(AppTheme.radiusMedium)
+              }
               Button(I18n.t('showFloatingAnswer', this.language)).width('100%').height(40).margin({ top: 8 }).backgroundColor(AppTheme.elevatedBackground).fontColor(AppTheme.primaryText).enabled(this.transcriptionState !== 'stopped' && this.showPreview).onClick((): void => { this.showFloating = true; })
               if (this.answerPartCount > 0) { SectionHeader({ title: I18n.t('aiStream', this.language), subtitle: I18n.answerState(this.answerState, this.language) }); ForEach(I18n.answerStreamParts(this.answer, this.language).slice(0, this.answerPartCount), (part: string) => { Text(part).width('100%').padding(10).margin({ bottom: 7 }).fontSize(13).fontColor(AppTheme.secondaryText).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusSmall) }, (part: string): string => part) }
               if (this.showPreview) { AnswerPreviewCard({ answer: this.answer, language: this.language }).margin({ top: 12, bottom: 90 }) }

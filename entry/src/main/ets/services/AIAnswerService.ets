@@ -1,4 +1,5 @@
 import { AnswerStage, AnswerBundle, AnswerDurationMode, AnswerTone } from '../model/AnswerBundle';
+import { AppLanguage } from '../common/i18n/I18n';
 import { Meeting } from '../model/Meeting';
 import { MeetingDocument } from '../model/MeetingDocument';
 import { PredictedQuestion } from '../model/PredictedQuestion';
@@ -16,7 +17,8 @@ export interface AnswerGenerationParams {
   question: string;
   context: AnswerGenerationContext;
   duration: 15 | 30 | 60;
-  tone: 'concise' | 'professional' | 'polite' | 'assertive';
+  tone: AnswerTone;
+  language?: AppLanguage;
 }
 
 export interface IAIAnswerService {

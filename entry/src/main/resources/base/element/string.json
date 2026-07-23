@@ -15,6 +15,10 @@
     {
       "name": "microphone_permission_reason",
       "value": "用于会议录音和语音识别功能"
+    },
+    {
+      "name": "photo_permission_reason",
+      "value": "用于从相册选择头像并上传到账号资料"
     }
   ]
 }

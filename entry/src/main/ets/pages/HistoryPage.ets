@@ -8,6 +8,7 @@ import { SectionHeader } from '../components/SectionHeader';
 import { TopTitleBar } from '../components/TopTitleBar';
 import { AnswerBundle } from '../model/AnswerBundle';
 import { MeetingSummary } from '../model/MeetingSummary';
+import { AuthService } from '../services/AuthService';
 import { MockMeetingService } from '../services/MockMeetingService';
 import { MockStorageService } from '../services/MockStorageService';
 
@@ -26,7 +27,12 @@ struct HistoryPage {
   @StorageLink('language') language: AppLanguage = MockStorageService.getLanguage();
 
   aboutToAppear(): void {
-    this.loadHistory();
+    AuthService.ensureAuthenticated().then((authenticated: boolean): void => {
+      if (!authenticated) {
+        return;
+      }
+      this.loadHistory();
+    });
   }
 
   aboutToDisappear(): void {

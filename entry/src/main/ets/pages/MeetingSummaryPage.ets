@@ -6,6 +6,7 @@ import { PageStateView } from '../components/PageStateView';
 import { SectionHeader } from '../components/SectionHeader';
 import { TopTitleBar } from '../components/TopTitleBar';
 import { DecisionItem, MeetingSummary, TodoItem } from '../model/MeetingSummary';
+import { AuthService } from '../services/AuthService';
 import { MockAIAnswerService } from '../services/MockAIAnswerService';
 import { MockMeetingService } from '../services/MockMeetingService';
 import { MockStorageService } from '../services/MockStorageService';
@@ -38,9 +39,14 @@ struct MeetingSummaryPage {
   @StorageLink('language') language: AppLanguage = MockStorageService.getLanguage();
 
   aboutToAppear(): void {
-    const params = router.getParams() as PageParams;
-    if (params && params.meetingId) { this.meetingId = params.meetingId; }
-    this.loadSummary();
+    AuthService.ensureAuthenticated().then((authenticated: boolean): void => {
+      if (!authenticated) {
+        return;
+      }
+      const params = router.getParams() as PageParams;
+      if (params && params.meetingId) { this.meetingId = params.meetingId; }
+      this.loadSummary();
+    });
   }
 
   aboutToDisappear(): void {

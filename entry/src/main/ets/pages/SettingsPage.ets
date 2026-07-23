@@ -5,6 +5,7 @@ import { DeviceStatusBar } from '../components/DeviceStatusBar';
 import { SectionHeader } from '../components/SectionHeader';
 import { TopTitleBar } from '../components/TopTitleBar';
 import { EnvironmentMode, UserPreferences } from '../model/UserPreferences';
+import { AuthService } from '../services/AuthService';
 import { MockAudioOutputService } from '../services/MockAudioOutputService';
 import { MockStorageService } from '../services/MockStorageService';
 
@@ -19,6 +20,10 @@ struct SettingsPage {
   @State autoFloating: boolean = MockStorageService.getPreferences().answer.autoGenerate;
   @State mode: EnvironmentMode = MockStorageService.getPreferences().environment.mode;
   @StorageLink('language') language: AppLanguage = MockStorageService.getLanguage();
+
+  aboutToAppear(): void {
+    AuthService.ensureAuthenticated();
+  }
 
   private saveCurrentPreferences(): void {
     const preferences: UserPreferences = MockStorageService.getPreferences();

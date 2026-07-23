@@ -1,5 +1,7 @@
 {
   "src": [
+    "pages/SplashPage",
+    "pages/LoginPage",
     "pages/Index",
     "pages/PrivacyOnboardingPage",
     "pages/MeetingPreparationPage",

@@ -9,6 +9,7 @@ import { TopTitleBar } from '../components/TopTitleBar';
 import { mockAnswer, mockAnswers } from '../mock/MockAnswers';
 import { AnswerBundle, AnswerDurationMode, AnswerTone, AnswerToneOption } from '../model/AnswerBundle';
 import { SupportingFact } from '../model/SupportingFact';
+import { AuthService } from '../services/AuthService';
 import { MockAIAnswerService } from '../services/MockAIAnswerService';
 import { MockAudioOutputService } from '../services/MockAudioOutputService';
 import { MockStorageService } from '../services/MockStorageService';
@@ -41,12 +42,17 @@ struct AnswerDetailPage {
   @StorageLink('language') language: AppLanguage = MockStorageService.getLanguage();
 
   aboutToAppear(): void {
-    const params = router.getParams() as PageParams;
-    if (params) {
-      this.questionId = params.questionId || '';
-      this.from = params.from || '';
-    }
-    this.loadAnswer(false);
+    AuthService.ensureAuthenticated().then((authenticated: boolean): void => {
+      if (!authenticated) {
+        return;
+      }
+      const params = router.getParams() as PageParams;
+      if (params) {
+        this.questionId = params.questionId || '';
+        this.from = params.from || '';
+      }
+      this.loadAnswer(false);
+    });
   }
 
   aboutToDisappear(): void {
