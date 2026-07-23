@@ -5,6 +5,7 @@ import { AppTheme } from '../common/theme/AppTheme';
 import { PageStateView } from '../components/PageStateView';
 import { SectionHeader } from '../components/SectionHeader';
 import { StatusBadge } from '../components/StatusBadge';
+import { TopTitleBar } from '../components/TopTitleBar';
 import { mockAnswer, mockAnswers } from '../mock/MockAnswers';
 import { AnswerBundle, AnswerDurationMode, AnswerTone, AnswerToneOption } from '../model/AnswerBundle';
 import { SupportingFact } from '../model/SupportingFact';
@@ -126,7 +127,7 @@ struct AnswerDetailPage {
   build() {
     Scroll() {
       Column() {
-        Row() { Button(I18n.t('back', this.language)).height(34).backgroundColor(AppTheme.elevatedBackground).fontColor(AppTheme.secondaryText).onClick((): void => { router.back(); }); Text(I18n.t('answerDetail', this.language)).layoutWeight(1).textAlign(TextAlign.Center).fontSize(18).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText) }.width('100%')
+        TopTitleBar({ title: I18n.t('answerDetail', this.language), showBack: true })
         if (this.pageState === 'loading') {
           PageStateView({ state: 'loading', title: I18n.t('generatingAnswer', this.language), description: I18n.t('generatingAnswerDesc', this.language) }).margin({ top: 16 })
         } else if (this.pageState === 'error') {

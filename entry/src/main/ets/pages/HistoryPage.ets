@@ -2,8 +2,10 @@ import { promptAction, router } from '@kit.ArkUI';
 import { AppLanguage, I18n } from '../common/i18n/I18n';
 import { PageLoadState } from '../common/state/PageLoadState';
 import { AppTheme } from '../common/theme/AppTheme';
+import { BottomNavigationBar } from '../components/BottomNavigationBar';
 import { PageStateView } from '../components/PageStateView';
 import { SectionHeader } from '../components/SectionHeader';
+import { TopTitleBar } from '../components/TopTitleBar';
 import { AnswerBundle } from '../model/AnswerBundle';
 import { MeetingSummary } from '../model/MeetingSummary';
 import { MockMeetingService } from '../services/MockMeetingService';
@@ -88,41 +90,73 @@ struct HistoryPage {
     return this.hasVisibleMeetings() || this.hasVisibleAnswers();
   }
 
+  private filterBackground(filter: string): string {
+    return this.active === filter ? AppTheme.accentSoft : AppTheme.cardBackground;
+  }
+
+  private filterColor(filter: string): string {
+    return this.active === filter ? AppTheme.accentColor : AppTheme.secondaryText;
+  }
+
   build() {
-    Scroll() {
-      Column() {
-        Row() { Button(I18n.t('back', this.language)).height(34).backgroundColor(AppTheme.elevatedBackground).fontColor(AppTheme.secondaryText).onClick((): void => { router.back(); }); Text(I18n.t('history', this.language)).layoutWeight(1).textAlign(TextAlign.Center).fontSize(18).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText) }.width('100%')
-        if (this.pageState === 'loading') {
-          PageStateView({ state: 'loading', title: I18n.t('loadingHistory', this.language), description: I18n.t('loadingHistoryDesc', this.language) }).margin({ top: 16 })
-        } else if (this.pageState === 'error') {
-          PageStateView({ state: 'error', title: I18n.t('historyError', this.language), description: this.errorText, actionLabel: I18n.t('retry', this.language), actionEnabled: !this.isLoading, onAction: (): void => this.loadHistory() }).margin({ top: 16 })
-        } else if (this.pageState === 'empty') {
-          PageStateView({ state: 'empty', title: I18n.t('noHistory', this.language), description: I18n.t('saveSummaryFirst', this.language), actionLabel: I18n.t('startAdHocMeeting', this.language), onAction: (): void => { router.pushUrl({ url: 'pages/LiveMeetingPage', params: { meetingId: 'product-review' } }, router.RouterMode.Single); } }).margin({ top: 16 })
-        } else {
-          Row() { Button(I18n.t('all', this.language)).layoutWeight(1).height(34).enabled(!this.isLoading).onClick((): void => { this.active = 'All'; }); Button(I18n.t('meetings', this.language)).layoutWeight(1).height(34).enabled(!this.isLoading).margin({ left: 6 }).onClick((): void => { this.active = 'Meetings'; }); Button(I18n.t('answers', this.language)).layoutWeight(1).height(34).enabled(!this.isLoading).margin({ left: 6 }).onClick((): void => { this.active = 'Answers'; }) }.margin({ top: 16 }).width('100%')
-          TextInput({ placeholder: I18n.t('searchPlaceholder', this.language), text: this.keyword }).margin({ top: 12 }).height(42).fontColor(AppTheme.primaryText).placeholderColor(AppTheme.mutedText).backgroundColor(AppTheme.cardBackground).enabled(!this.isLoading).onChange((value: string): void => { this.keyword = value; })
-          if (!this.hasVisibleData()) {
-            PageStateView({ state: 'empty', title: I18n.t('noMatchingRecords', this.language), description: I18n.t('noMatchingRecordsDesc', this.language), actionLabel: I18n.t('reload', this.language), actionEnabled: !this.isLoading, onAction: (): void => this.loadHistory() }).margin({ top: 16 })
+    Column() {
+      Scroll() {
+        Column() {
+          TopTitleBar({ title: I18n.t('history', this.language), showBack: false })
+          if (this.pageState === 'loading') {
+            PageStateView({ state: 'loading', title: I18n.t('loadingHistory', this.language) }).margin({ top: 14 })
+          } else if (this.pageState === 'error') {
+            PageStateView({ state: 'error', title: I18n.t('historyError', this.language), description: this.errorText, actionLabel: I18n.t('retry', this.language), actionEnabled: !this.isLoading, onAction: (): void => this.loadHistory() }).margin({ top: 14 })
+          } else if (this.pageState === 'empty') {
+            PageStateView({ state: 'empty', title: I18n.t('noHistory', this.language), description: I18n.t('saveSummaryFirst', this.language), actionLabel: I18n.t('startAdHocMeeting', this.language), onAction: (): void => { router.pushUrl({ url: 'pages/LiveMeetingPage', params: { meetingId: 'product-review' } }, router.RouterMode.Single); } }).margin({ top: 14 })
           } else {
-            if (this.hasVisibleMeetings()) {
-              SectionHeader({ title: I18n.t('meetingHistory', this.language) })
-              ForEach(this.history, (summary: MeetingSummary) => {
-                if (this.meetingVisible(summary)) {
-                  Text(I18n.historySummaryLine(summary, this.language)).width('100%').padding(14).margin({ bottom: 10 }).fontSize(13).fontColor(AppTheme.secondaryText).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium).onClick((): void => { router.pushUrl({ url: 'pages/MeetingSummaryPage', params: { meetingId: summary.meetingId } }, router.RouterMode.Single); })
-                }
-              }, (summary: MeetingSummary): string => summary.id)
-            }
-            if (this.hasVisibleAnswers()) {
-              SectionHeader({ title: I18n.t('answerHistory', this.language) })
-              ForEach(this.favoriteAnswers, (answer: AnswerBundle) => {
-                if (this.answerVisible(answer)) {
-                  Column() { Text(I18n.answer(answer, this.language).question).width('100%').fontSize(15).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText); Text(`${I18n.answer(answer, this.language).transitionSentence} / ${answer.durationMode} / ${I18n.toneLabel(answer.tone, this.language)}`).width('100%').margin({ top: 8 }).fontSize(12).fontColor(AppTheme.secondaryText); Button(I18n.t('favorited', this.language)).width('100%').height(34).margin({ top: 8 }).backgroundColor(AppTheme.accentSoft).fontColor(AppTheme.accentColor).onClick((): void => { promptAction.showToast({ message: I18n.t('favorited', this.language) }); }) }.alignItems(HorizontalAlign.Start).width('100%').padding(14).margin({ bottom: 10 }).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium).onClick((): void => { router.pushUrl({ url: 'pages/AnswerDetailPage', params: { questionId: answer.id, from: 'history' } }, router.RouterMode.Single); })
-                }
-              }, (answer: AnswerBundle): string => answer.id)
+            TextInput({ placeholder: I18n.t('searchPlaceholder', this.language), text: this.keyword })
+              .margin({ top: 14 })
+              .height(40)
+              .padding({ left: 12, right: 12 })
+              .fontSize(14)
+              .fontColor(AppTheme.primaryText)
+              .placeholderColor(AppTheme.mutedText)
+              .backgroundColor(AppTheme.cardBackground)
+              .borderRadius(AppTheme.radiusMedium)
+              .enabled(!this.isLoading)
+              .onChange((value: string): void => { this.keyword = value; })
+            Row() {
+              Button(I18n.t('all', this.language)).layoutWeight(1).height(34).fontSize(13).fontColor(this.filterColor('All')).backgroundColor(this.filterBackground('All')).enabled(!this.isLoading).onClick((): void => { this.active = 'All'; })
+              Button(I18n.t('meetings', this.language)).layoutWeight(1).height(34).fontSize(13).fontColor(this.filterColor('Meetings')).backgroundColor(this.filterBackground('Meetings')).enabled(!this.isLoading).margin({ left: 8 }).onClick((): void => { this.active = 'Meetings'; })
+              Button(I18n.t('answers', this.language)).layoutWeight(1).height(34).fontSize(13).fontColor(this.filterColor('Answers')).backgroundColor(this.filterBackground('Answers')).enabled(!this.isLoading).margin({ left: 8 }).onClick((): void => { this.active = 'Answers'; })
+            }.margin({ top: 10 }).width('100%')
+            if (!this.hasVisibleData()) {
+              PageStateView({ state: 'empty', title: I18n.t('noMatchingRecords', this.language), description: I18n.t('noMatchingRecordsDesc', this.language), actionLabel: I18n.t('reload', this.language), actionEnabled: !this.isLoading, onAction: (): void => this.loadHistory() }).margin({ top: 14 })
+            } else {
+              if (this.hasVisibleMeetings()) {
+                SectionHeader({ title: I18n.t('meetingHistory', this.language) })
+                ForEach(this.history, (summary: MeetingSummary) => {
+                  if (this.meetingVisible(summary)) {
+                    Column() {
+                      Text(I18n.meetingTitle(summary.meetingId, summary.meetingTitle, this.language)).width('100%').fontSize(15).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText)
+                      Text(I18n.historySummaryLine(summary, this.language)).width('100%').margin({ top: 6 }).fontSize(12).fontColor(AppTheme.secondaryText)
+                    }.alignItems(HorizontalAlign.Start).width('100%').padding(14).margin({ bottom: 8 }).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium).onClick((): void => { router.pushUrl({ url: 'pages/MeetingSummaryPage', params: { meetingId: summary.meetingId } }, router.RouterMode.Single); })
+                  }
+                }, (summary: MeetingSummary): string => summary.id)
+              }
+              if (this.hasVisibleAnswers()) {
+                SectionHeader({ title: I18n.t('answerHistory', this.language) })
+                ForEach(this.favoriteAnswers, (answer: AnswerBundle) => {
+                  if (this.answerVisible(answer)) {
+                    Column() {
+                      Text(I18n.answer(answer, this.language).question).width('100%').fontSize(15).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText)
+                      Text(`${I18n.answer(answer, this.language).transitionSentence} / ${answer.durationMode} / ${I18n.toneLabel(answer.tone, this.language)}`).width('100%').margin({ top: 6 }).fontSize(12).fontColor(AppTheme.secondaryText).maxLines(2).textOverflow({ overflow: TextOverflow.Ellipsis })
+                      Text(I18n.t('favorited', this.language)).margin({ top: 8 }).padding({ left: 10, right: 10, top: 4, bottom: 4 }).fontSize(11).fontColor(AppTheme.accentColor).backgroundColor(AppTheme.accentSoft).borderRadius(AppTheme.radiusSmall).onClick((): void => { promptAction.showToast({ message: I18n.t('favorited', this.language) }); })
+                    }.alignItems(HorizontalAlign.Start).width('100%').padding(14).margin({ bottom: 8 }).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium).onClick((): void => { router.pushUrl({ url: 'pages/AnswerDetailPage', params: { questionId: answer.id, from: 'history' } }, router.RouterMode.Single); })
+                  }
+                }, (answer: AnswerBundle): string => answer.id)
+              }
             }
           }
-        }
-      }.padding(18)
+        }.padding({ left: 18, right: 18, top: 14, bottom: 18 })
+      }.layoutWeight(1)
+      BottomNavigationBar({ current: 'history', language: this.language })
     }.width('100%').height('100%').backgroundColor(AppTheme.pageBackground)
   }
 }

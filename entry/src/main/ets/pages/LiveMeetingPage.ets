@@ -3,10 +3,12 @@ import { AppLanguage, I18n } from '../common/i18n/I18n';
 import { PageLoadState } from '../common/state/PageLoadState';
 import { AppTheme } from '../common/theme/AppTheme';
 import { AnswerPreviewCard } from '../components/AnswerPreviewCard';
+import { BottomNavigationBar } from '../components/BottomNavigationBar';
 import { FloatingAnswerCard } from '../components/FloatingAnswerCard';
 import { PageStateView } from '../components/PageStateView';
 import { SectionHeader } from '../components/SectionHeader';
 import { StatusBadge } from '../components/StatusBadge';
+import { TopTitleBar } from '../components/TopTitleBar';
 import { TranscriptBubble } from '../components/TranscriptBubble';
 import { mockAnswer } from '../mock/MockAnswers';
 import { AnswerBundle } from '../model/AnswerBundle';
@@ -280,7 +282,7 @@ struct LiveMeetingPage {
       Column() {
         Scroll() {
           Column() {
-            Row() { Button(I18n.t('back', this.language)).height(34).backgroundColor(AppTheme.elevatedBackground).fontColor(AppTheme.secondaryText).onClick((): void => { router.back(); }); Text(I18n.meetingTitle(this.meeting.id, this.meeting.title, this.language)).layoutWeight(1).textAlign(TextAlign.Center).fontSize(17).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText) }.width('100%')
+            TopTitleBar({ title: I18n.t('assistant', this.language), showBack: false })
             if (this.pageState === 'loading') {
               PageStateView({ state: 'loading', title: I18n.t('startingTranscription', this.language), description: I18n.t('startingTranscriptionDesc', this.language) }).margin({ top: 16 })
             } else if (this.pageState === 'error') {
@@ -290,10 +292,10 @@ struct LiveMeetingPage {
             } else {
               Column() {
                 Row() { StatusBadge({ label: this.transcriptionStateLabel(), type: this.transcriptionStatusType() }); StatusBadge({ label: `${this.seconds}s`, type: 'normal' }).margin({ left: 8 }) }.width('100%')
-                Text(I18n.t('meetingRunningStatus', this.language)).width('100%').margin({ top: 10 }).fontSize(13).fontColor(AppTheme.secondaryText)
+                Text(I18n.meetingTitle(this.meeting.id, this.meeting.title, this.language)).width('100%').margin({ top: 10 }).fontSize(15).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText)
               }.alignItems(HorizontalAlign.Start).width('100%').padding(14).margin({ top: 14 }).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium)
               Row() { Button(this.primaryTranscriptActionLabel()).layoutWeight(1).height(42).backgroundColor(AppTheme.elevatedBackground).fontColor(AppTheme.primaryText).enabled(this.canUsePrimaryTranscriptAction()).onClick((): void => this.handlePrimaryTranscriptAction()); Button(I18n.t('stop', this.language)).layoutWeight(1).height(42).backgroundColor(AppTheme.errorSoft).fontColor(AppTheme.errorColor).enabled(this.canStopTranscription()).margin({ left: 10 }).onClick((): void => this.stopTranscription()) }.margin({ top: 12 }).width('100%')
-              SectionHeader({ title: I18n.t('transcript', this.language), subtitle: I18n.t('transcriptSubtitle', this.language) })
+              SectionHeader({ title: I18n.t('transcript', this.language) })
               ForEach(this.visibleTranscripts, (item: TranscriptItem) => { TranscriptBubble({ item: item, language: this.language }).margin({ bottom: 8 }) }, (item: TranscriptItem): string => item.id)
               if (this.questionDetected) { Text(I18n.t('questionDetected', this.language)).width('100%').padding(12).fontSize(12).fontColor(AppTheme.warningColor).backgroundColor(AppTheme.warningSoft).borderRadius(AppTheme.radiusMedium) }
               SectionHeader({ title: I18n.t('actions', this.language) })
@@ -303,10 +305,11 @@ struct LiveMeetingPage {
               if (this.showPreview) { AnswerPreviewCard({ answer: this.answer, language: this.language }).margin({ top: 12, bottom: 90 }) }
               if (this.playbackText.length > 0) { Text(this.playbackText).width('100%').margin({ bottom: 90 }).fontSize(12).fontColor(AppTheme.accentColor) }
             }
-          }.padding(18)
-        }
+          }.padding({ left: 18, right: 18, top: 14, bottom: 86 })
+        }.layoutWeight(1)
+        BottomNavigationBar({ current: 'assistant', language: this.language })
       }.width('100%').height('100%').backgroundColor(AppTheme.pageBackground)
-      FloatingAnswerCard({ answer: this.answer, language: this.language, visible: $showFloating, onPlayback: (text: string): void => { this.playbackText = this.audioService.simulateEarphonePlayback(text); setTimeout((): void => { this.playbackText = ''; }, 2000); } }).margin({ bottom: 18 })
+      FloatingAnswerCard({ answer: this.answer, language: this.language, visible: $showFloating, onPlayback: (text: string): void => { this.playbackText = this.audioService.simulateEarphonePlayback(text); setTimeout((): void => { this.playbackText = ''; }, 2000); } }).margin({ bottom: 80 })
     }
   }
 }

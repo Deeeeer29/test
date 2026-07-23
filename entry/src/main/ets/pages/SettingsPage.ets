@@ -3,6 +3,7 @@ import { AppLanguage, I18n } from '../common/i18n/I18n';
 import { AppTheme } from '../common/theme/AppTheme';
 import { DeviceStatusBar } from '../components/DeviceStatusBar';
 import { SectionHeader } from '../components/SectionHeader';
+import { TopTitleBar } from '../components/TopTitleBar';
 import { EnvironmentMode, UserPreferences } from '../model/UserPreferences';
 import { MockAudioOutputService } from '../services/MockAudioOutputService';
 import { MockStorageService } from '../services/MockStorageService';
@@ -53,13 +54,13 @@ struct SettingsPage {
   build() {
     Scroll() {
       Column() {
-        Row() { Button(I18n.t('back', this.language)).height(34).backgroundColor(AppTheme.elevatedBackground).fontColor(AppTheme.secondaryText).onClick((): void => { router.back(); }); Text(I18n.t('settings', this.language)).layoutWeight(1).textAlign(TextAlign.Center).fontSize(18).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText) }.width('100%')
+        TopTitleBar({ title: I18n.t('settings', this.language), showBack: true })
         SectionHeader({ title: I18n.t('languageSettings', this.language), subtitle: I18n.t('languageSettingsDesc', this.language) })
         Row() {
           Button(I18n.t('chinese', this.language)).layoutWeight(1).height(38).backgroundColor(this.language === 'zh' ? AppTheme.accentColor : AppTheme.elevatedBackground).fontColor(this.language === 'zh' ? AppTheme.primaryButtonText : AppTheme.primaryText).onClick((): void => { this.changeLanguage('zh'); })
           Button(I18n.t('english', this.language)).layoutWeight(1).height(38).margin({ left: 8 }).backgroundColor(this.language === 'en' ? AppTheme.accentColor : AppTheme.elevatedBackground).fontColor(this.language === 'en' ? AppTheme.primaryButtonText : AppTheme.primaryText).onClick((): void => { this.changeLanguage('en'); })
         }.width('100%')
-        SectionHeader({ title: I18n.t('deviceStatus', this.language), subtitle: I18n.t('mockPhoneEarphoneOnly', this.language) })
+        SectionHeader({ title: I18n.t('deviceStatus', this.language) })
         DeviceStatusBar({ status: this.audioService.getEarphoneStatus(), language: this.language })
         Button(I18n.t('testEarphoneMock', this.language)).width('100%').height(40).margin({ top: 10 }).fontColor(AppTheme.primaryButtonText).backgroundColor(AppTheme.accentColor).onClick((): void => { promptAction.showToast({ message: this.audioService.testEarphonePlayback() }); })
         SectionHeader({ title: I18n.t('privacy', this.language) })

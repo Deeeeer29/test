@@ -4,6 +4,7 @@ import { PageLoadState } from '../common/state/PageLoadState';
 import { AppTheme } from '../common/theme/AppTheme';
 import { PageStateView } from '../components/PageStateView';
 import { SectionHeader } from '../components/SectionHeader';
+import { TopTitleBar } from '../components/TopTitleBar';
 import { Meeting } from '../model/Meeting';
 import { MeetingDocument } from '../model/MeetingDocument';
 import { PredictedQuestion } from '../model/PredictedQuestion';
@@ -90,7 +91,7 @@ struct MeetingPreparationPage {
     Column() {
       Scroll() {
         Column() {
-          Row() { Button(I18n.t('back', this.language)).height(34).backgroundColor(AppTheme.elevatedBackground).fontColor(AppTheme.secondaryText).onClick((): void => { router.back(); }); Text(I18n.t('preparation', this.language)).layoutWeight(1).textAlign(TextAlign.Center).fontSize(18).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText) }.width('100%')
+          TopTitleBar({ title: I18n.t('preparation', this.language), showBack: true })
           if (this.pageState === 'loading') {
             PageStateView({ state: 'loading', title: I18n.t('loadingPreparation', this.language), description: I18n.t('loadingPreparationDesc', this.language) }).margin({ top: 16 })
           } else if (this.pageState === 'error') {
@@ -99,7 +100,7 @@ struct MeetingPreparationPage {
             PageStateView({ state: 'empty', title: I18n.t('noPreparationData', this.language), description: I18n.t('noPreparationDataDesc', this.language), actionLabel: I18n.t('backHome', this.language), onAction: (): void => { router.replaceUrl({ url: 'pages/Index' }, router.RouterMode.Single); } }).margin({ top: 16 })
           } else {
             Text(I18n.meetingTitle(this.meeting.id, this.meeting.title, this.language)).width('100%').margin({ top: 16 }).padding(16).fontSize(22).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusMedium)
-            SectionHeader({ title: I18n.t('backgroundSummary', this.language), subtitle: I18n.t('mockData', this.language) })
+            SectionHeader({ title: I18n.t('backgroundSummary', this.language) })
             ForEach(I18n.backgroundSummary(this.meetingId, this.language), (item: string) => { Text(`- ${item}`).width('100%').padding(10).margin({ bottom: 8 }).fontSize(13).fontColor(AppTheme.secondaryText).backgroundColor(AppTheme.cardBackground).borderRadius(AppTheme.radiusSmall) }, (item: string): string => item)
             SectionHeader({ title: I18n.t('keyMetrics', this.language) })
             ForEach(this.preparation.keyMetrics, (item: KeyMetric) => { Text(I18n.keyMetricLine(item.name, item.value, item.unit, this.language)).width('100%').padding(12).margin({ bottom: 8 }).fontSize(13).fontColor(AppTheme.primaryText).backgroundColor(AppTheme.elevatedBackground).borderRadius(AppTheme.radiusMedium) }, (item: KeyMetric): string => item.name)

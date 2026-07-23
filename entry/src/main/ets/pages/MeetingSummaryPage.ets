@@ -4,6 +4,7 @@ import { PageLoadState } from '../common/state/PageLoadState';
 import { AppTheme } from '../common/theme/AppTheme';
 import { PageStateView } from '../components/PageStateView';
 import { SectionHeader } from '../components/SectionHeader';
+import { TopTitleBar } from '../components/TopTitleBar';
 import { DecisionItem, MeetingSummary, TodoItem } from '../model/MeetingSummary';
 import { MockAIAnswerService } from '../services/MockAIAnswerService';
 import { MockMeetingService } from '../services/MockMeetingService';
@@ -92,7 +93,7 @@ struct MeetingSummaryPage {
   build() {
     Scroll() {
       Column() {
-        Row() { Button(I18n.t('back', this.language)).height(34).backgroundColor(AppTheme.elevatedBackground).fontColor(AppTheme.secondaryText).onClick((): void => { router.back(); }); Text(I18n.t('meetingSummary', this.language)).layoutWeight(1).textAlign(TextAlign.Center).fontSize(18).fontWeight(FontWeight.Bold).fontColor(AppTheme.primaryText) }.width('100%')
+        TopTitleBar({ title: I18n.t('meetingSummary', this.language), showBack: true })
         if (this.pageState === 'loading') {
           PageStateView({ state: 'loading', title: I18n.t('generatingSummary', this.language), description: I18n.t('generatingSummaryDesc', this.language) }).margin({ top: 16 })
         } else if (this.pageState === 'error') {
