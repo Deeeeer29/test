@@ -1,4 +1,5 @@
 import { promptAction, router } from '@kit.ArkUI';
+import { common } from '@kit.AbilityKit';
 import { AppLanguage, I18n } from '../common/i18n/I18n';
 import { PageLoadState } from '../common/state/PageLoadState';
 import { AppTheme } from '../common/theme/AppTheme';
@@ -10,20 +11,18 @@ import { SectionHeader } from '../components/SectionHeader';
 import { StatusBadge } from '../components/StatusBadge';
 import { TopTitleBar } from '../components/TopTitleBar';
 import { TranscriptBubble } from '../components/TranscriptBubble';
-import { mockAnswer } from '../mock/MockAnswers';
 import { AnswerBundle } from '../model/AnswerBundle';
 import { Meeting } from '../model/Meeting';
 import { MeetingDocument } from '../model/MeetingDocument';
 import { TranscriptItem } from '../model/TranscriptItem';
 import { AuthService } from '../services/AuthService';
 import { ApiAIAnswerService } from '../services/ApiAIAnswerService';
+import { ApiTranscriptService } from '../services/ApiTranscriptService';
 import { IAIAnswerService } from '../services/AIAnswerService';
 import { MockAudioOutputService } from '../services/MockAudioOutputService';
 import { MockMeetingService } from '../services/MockMeetingService';
 import { MockStorageService } from '../services/MockStorageService';
-import { MockTranscriptService } from '../services/MockTranscriptService';
 import { MeetingPreparation } from '../services/MeetingService';
-import { ITranscriptService } from '../services/TranscriptService';
 
 type AnswerState = 'idle' | 'generating' | 'ready';
 type TranscriptionState = 'not_started' | 'transcribing' | 'paused' | 'stopped';
@@ -42,11 +41,26 @@ const EMPTY_MEETING: Meeting = {
   aiAssistedCount: 0
 };
 
+const EMPTY_ANSWER: AnswerBundle = {
+  id: '',
+  meetingId: '',
+  question: '',
+  stages: [],
+  durationMode: '30s',
+  tone: 'professional',
+  createdAt: '',
+  isFavorite: false,
+  keyPoints: [],
+  supportingFacts: [],
+  riskWarnings: [],
+  immediateAnswer: ''
+};
+
 @Entry
 @Component
 struct LiveMeetingPage {
   private meetingService: MockMeetingService = new MockMeetingService();
-  private transcriptService: MockTranscriptService = new MockTranscriptService();
+  private transcriptService: ApiTranscriptService | undefined = undefined;
   private answerService: IAIAnswerService = new ApiAIAnswerService();
   private audioService: MockAudioOutputService = new MockAudioOutputService();
   private loadTimer: number = 0;
@@ -64,7 +78,7 @@ struct LiveMeetingPage {
   @State answerErrorText: string = '';
   @State questionDetected: boolean = false;
   @State seconds: number = 0;
-  @State answer: AnswerBundle = mockAnswer;
+  @State answer: AnswerBundle = EMPTY_ANSWER;
   @State answerPartCount: number = 0;
   @State showPreview: boolean = false;
   @State showFloating: boolean = false;
@@ -121,7 +135,7 @@ struct LiveMeetingPage {
     this.loadTimer = setTimeout((): void => {
       try {
         this.meeting = this.meetingService.getMeetingById(this.meetingId);
-        this.transcriptService = new MockTranscriptService();
+        this.transcriptService = this.createTranscriptService();
         this.pageState = 'success';
         this.visibleTranscripts = [];
         this.transcriptionState = this.transcriptService.getTranscriptionState();
@@ -139,13 +153,12 @@ struct LiveMeetingPage {
     if (this.pageState !== 'success' || this.transcriptionState === 'stopped') {
       return;
     }
+    if (!this.transcriptService) {
+      this.transcriptService = this.createTranscriptService();
+    }
     this.transcriptService.startTranscription(this.meetingId);
     this.visibleTranscripts = this.transcriptService.getVisibleTranscripts();
-    this.transcriptionState = this.transcriptService.getTranscriptionState();
-    if (this.visibleTranscripts.length === 0) {
-      this.pageState = 'empty';
-      return;
-    }
+    this.transcriptionState = 'transcribing';
     this.pageState = 'success';
     this.ensureTranscriptTimer();
   }
@@ -155,27 +168,20 @@ struct LiveMeetingPage {
       return;
     }
     this.transcriptTimer = setInterval((): void => {
-      if (this.transcriptService.getTranscriptionState() !== 'transcribing') {
+      if (!this.transcriptService || this.transcriptService.getTranscriptionState() !== 'transcribing') {
         this.clearTranscriptTimer();
-        this.transcriptionState = this.transcriptService.getTranscriptionState();
+        this.transcriptionState = this.transcriptService ? this.transcriptService.getTranscriptionState() : 'stopped';
         return;
       }
-      this.seconds += 2;
-      const next: TranscriptItem | undefined = this.transcriptService.getNextTranscript();
-      if (next) {
-        this.visibleTranscripts = [...this.visibleTranscripts, next];
-        if (next.isQuestion) { this.questionDetected = true; }
-      }
-      if (!this.transcriptService.hasMoreTranscripts()) {
-        this.clearTranscriptTimer();
-      }
-    }, 1600);
+      this.seconds += 1;
+    }, 1000);
   }
 
   private pause(): void {
     if (this.transcriptionState !== 'transcribing') {
       return;
     }
+    if (!this.transcriptService) { return; }
     this.transcriptService.pauseTranscription();
     this.clearTranscriptTimer();
     this.transcriptionState = this.transcriptService.getTranscriptionState();
@@ -185,6 +191,7 @@ struct LiveMeetingPage {
     if (this.transcriptionState !== 'paused') {
       return;
     }
+    if (!this.transcriptService) { return; }
     this.transcriptService.resumeTranscription();
     this.transcriptionState = this.transcriptService.getTranscriptionState();
     this.ensureTranscriptTimer();
@@ -194,14 +201,46 @@ struct LiveMeetingPage {
     if (this.transcriptionState === 'stopped') {
       return;
     }
-    this.transcriptService.stopTranscription();
+    const transcriptService: ApiTranscriptService | undefined = this.transcriptService;
+    if (transcriptService) {
+      transcriptService.stopTranscription();
+    }
     this.clearTimers();
     this.answerRequestId += 1;
-    this.transcriptionState = this.transcriptService.getTranscriptionState();
+    this.transcriptionState = transcriptService ? transcriptService.getTranscriptionState() : 'stopped';
     this.answerState = 'idle';
     this.answerErrorText = '';
     this.answerPartCount = 0;
     promptAction.showToast({ message: I18n.t('transcriptionStopped', this.language) });
+  }
+
+  private createTranscriptService(): ApiTranscriptService {
+    const context = getContext(this) as common.UIAbilityContext;
+    return new ApiTranscriptService(
+      context,
+      (): AppLanguage => this.language,
+      (item: TranscriptItem): void => this.handleTranscriptItem(item),
+      (message: string): void => this.handleTranscriptionError(message)
+    );
+  }
+
+  private handleTranscriptItem(item: TranscriptItem): void {
+    if (this.transcriptionState === 'stopped') {
+      return;
+    }
+    this.visibleTranscripts = [...this.visibleTranscripts, item];
+    if (item.isQuestion || item.content.indexOf('?') >= 0 || item.content.indexOf('？') >= 0) {
+      this.questionDetected = true;
+    }
+    this.pageState = 'success';
+  }
+
+  private handleTranscriptionError(message: string): void {
+    this.clearTranscriptTimer();
+    this.errorText = message.length > 0 ? message : I18n.t('transcriptionErrorDesc', this.language);
+    this.pageState = 'error';
+    this.transcriptionState = 'stopped';
+    promptAction.showToast({ message: I18n.t('transcriptionError', this.language) });
   }
 
   private generateAnswer(): void {

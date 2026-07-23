@@ -49,7 +49,7 @@ export class I18n {
     if (key === 'materials') { return '会议材料'; }
     if (key === 'predictedQuestions') { return '预测问题'; }
     if (key === 'enterMeetingMode') { return '进入会议模式'; }
-    if (key === 'meetingRunningStatus') { return '会议助手运行中 / 麦克风已启用 / 耳机模拟就绪 / AI Mock 就绪'; }
+    if (key === 'meetingRunningStatus') { return '会议助手运行中 / 麦克风已启用 / AI 服务就绪'; }
     if (key === 'resume') { return '恢复'; }
     if (key === 'pause') { return '暂停'; }
     if (key === 'play') { return '播放'; }
@@ -62,7 +62,7 @@ export class I18n {
     if (key === 'playbackFailed') { return '播放失败'; }
     if (key === 'testPlaybackText') { return '这是一条耳机模拟播放测试消息。'; }
     if (key === 'transcript') { return '实时转写'; }
-    if (key === 'transcriptSubtitle') { return 'Mock 转写内容会逐条出现。'; }
+    if (key === 'transcriptSubtitle') { return '实时语音转写内容会逐条出现。'; }
     if (key === 'questionDetected') { return '检测到问题，可请求 AI 辅助回答。'; }
     if (key === 'actions') { return '操作'; }
     if (key === 'helpMeAnswer') { return '帮我回答'; }
@@ -176,12 +176,12 @@ export class I18n {
     if (key === 'transcriptionError') { return '实时转写启动失败'; }
     if (key === 'transcriptionErrorDesc') { return '实时转写启动失败，请重试。'; }
     if (key === 'noTranscriptSource') { return '暂无转写内容'; }
-    if (key === 'noTranscriptSourceDesc') { return 'Mock 转写服务没有返回该会议的内容。'; }
+    if (key === 'noTranscriptSourceDesc') { return '当前没有可展示的实时转写内容。'; }
     if (key === 'transcriptionStopped') { return '转写已停止'; }
     if (key === 'answerGenerated') { return '回答已生成'; }
     if (key === 'answerGenerateFailed') { return '回答生成失败'; }
     if (key === 'generatingAnswer') { return '正在生成回答'; }
-    if (key === 'generatingAnswerDesc') { return '正在准备最新 Mock 回答。'; }
+    if (key === 'generatingAnswerDesc') { return '正在请求 AI 生成回答。'; }
     if (key === 'answerError') { return '回答生成失败'; }
     if (key === 'answerErrorDesc') { return '回答加载失败，请重试。'; }
     if (key === 'noAnswerContent') { return '暂无回答内容'; }
@@ -275,7 +275,7 @@ export class I18n {
     if (key === 'materials') { return 'Materials'; }
     if (key === 'predictedQuestions') { return 'Predicted questions'; }
     if (key === 'enterMeetingMode') { return 'Enter meeting mode'; }
-    if (key === 'meetingRunningStatus') { return 'Meeting assistant running / microphone active / earphone mock ready / AI mock ready'; }
+    if (key === 'meetingRunningStatus') { return 'Meeting assistant running / microphone active / AI service ready'; }
     if (key === 'resume') { return 'Resume'; }
     if (key === 'pause') { return 'Pause'; }
     if (key === 'play') { return 'Play'; }
@@ -288,7 +288,7 @@ export class I18n {
     if (key === 'playbackFailed') { return 'Playback failed'; }
     if (key === 'testPlaybackText') { return 'This is a test playback message.'; }
     if (key === 'transcript') { return 'Transcript'; }
-    if (key === 'transcriptSubtitle') { return 'Mock transcript appears step by step.'; }
+    if (key === 'transcriptSubtitle') { return 'Live speech transcript appears step by step.'; }
     if (key === 'questionDetected') { return 'Question detected. You can request an AI-assisted answer.'; }
     if (key === 'actions') { return 'Actions'; }
     if (key === 'helpMeAnswer') { return 'Help me answer'; }
@@ -402,12 +402,12 @@ export class I18n {
     if (key === 'transcriptionError') { return 'Unable to start transcription'; }
     if (key === 'transcriptionErrorDesc') { return 'Failed to start live transcription. Please retry.'; }
     if (key === 'noTranscriptSource') { return 'No transcript source'; }
-    if (key === 'noTranscriptSourceDesc') { return 'The mock transcript service returned no content for this meeting.'; }
+    if (key === 'noTranscriptSourceDesc') { return 'No live transcript content is available yet.'; }
     if (key === 'transcriptionStopped') { return 'Transcription stopped'; }
     if (key === 'answerGenerated') { return 'Answer generated'; }
     if (key === 'answerGenerateFailed') { return 'Failed to generate answer'; }
     if (key === 'generatingAnswer') { return 'Generating answer'; }
-    if (key === 'generatingAnswerDesc') { return 'Preparing the latest mock answer.'; }
+    if (key === 'generatingAnswerDesc') { return 'Requesting an AI-generated answer.'; }
     if (key === 'answerError') { return 'Unable to generate answer'; }
     if (key === 'answerErrorDesc') { return 'Failed to load answer. Please retry.'; }
     if (key === 'noAnswerContent') { return 'No answer content'; }
