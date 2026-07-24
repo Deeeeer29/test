@@ -25,7 +25,12 @@ export struct FloatingAnswerCard {
           Text(`${I18n.riskPrefix(this.language)}${I18n.answer(this.answer, this.language).riskWarnings[0]}`).width('100%').margin({ top: 8 }).fontSize(12).fontColor(AppTheme.warningColor)
           Row() {
             Button(I18n.t('earphoneMock', this.language)).layoutWeight(1).height(36).fontSize(12).fontColor(AppTheme.primaryButtonText).backgroundColor(AppTheme.accentColor).onClick((): void => this.onPlayback(I18n.answer(this.answer, this.language).transitionSentence || ''))
-            Button(I18n.t('fullAnswer', this.language)).layoutWeight(1).height(36).fontSize(12).fontColor(AppTheme.primaryText).backgroundColor(AppTheme.elevatedBackground).margin({ left: 8 }).onClick((): void => { router.pushUrl({ url: 'pages/AnswerDetailPage', params: { from: 'floating' } }, router.RouterMode.Single); })
+            Button(I18n.t('fullAnswer', this.language)).layoutWeight(1).height(36).fontSize(12).fontColor(AppTheme.primaryText).backgroundColor(AppTheme.elevatedBackground).margin({ left: 8 }).onClick((): void => {
+              router.pushUrl({
+                url: 'pages/AnswerDetailPage',
+                params: { answerId: this.answer.id, answer: this.answer, from: 'floating' }
+              }, router.RouterMode.Single);
+            })
           }.margin({ top: 10 }).width('100%')
         }
       }

@@ -76,7 +76,7 @@ export class I18n {
     if (key === 'keyPointsSection') { return '核心观点'; }
     if (key === 'supportingFacts') { return '支撑依据'; }
     if (key === 'risk') { return '风险提醒'; }
-    if (key === 'mockEarphonePlayback') { return '耳机模拟播放'; }
+    if (key === 'mockEarphonePlayback') { return '耳机播放'; }
     if (key === 'regenerate') { return '重新生成'; }
     if (key === 'favorite') { return '收藏'; }
     if (key === 'favorited') { return '已收藏'; }
@@ -106,8 +106,8 @@ export class I18n {
     if (key === 'more') { return '展开'; }
     if (key === 'fold') { return '收起'; }
     if (key === 'close') { return '关闭'; }
-    if (key === 'floatingTags') { return '会议辅助 / 低打扰 / Mock AI'; }
-    if (key === 'earphoneMock') { return '耳机模拟'; }
+    if (key === 'floatingTags') { return '会议辅助 / 低打扰 / 实时回答'; }
+    if (key === 'earphoneMock') { return '耳机播放'; }
     if (key === 'fullAnswer') { return '完整回答'; }
     if (key === 'prepare') { return '准备'; }
     if (key === 'start') { return '开始'; }
@@ -302,7 +302,7 @@ export class I18n {
     if (key === 'keyPointsSection') { return 'Key points'; }
     if (key === 'supportingFacts') { return 'Supporting facts'; }
     if (key === 'risk') { return 'Risk'; }
-    if (key === 'mockEarphonePlayback') { return 'Mock earphone playback'; }
+    if (key === 'mockEarphonePlayback') { return 'Earphone playback'; }
     if (key === 'regenerate') { return 'Regenerate'; }
     if (key === 'favorite') { return 'Favorite'; }
     if (key === 'favorited') { return 'Favorited'; }
@@ -332,8 +332,8 @@ export class I18n {
     if (key === 'more') { return 'More'; }
     if (key === 'fold') { return 'Fold'; }
     if (key === 'close') { return 'Close'; }
-    if (key === 'floatingTags') { return 'Meeting assist / low interruption / Mock AI'; }
-    if (key === 'earphoneMock') { return 'Earphone mock'; }
+    if (key === 'floatingTags') { return 'Meeting assist / low interruption / live answer'; }
+    if (key === 'earphoneMock') { return 'Earphone playback'; }
     if (key === 'fullAnswer') { return 'Full answer'; }
     if (key === 'prepare') { return 'Prepare'; }
     if (key === 'start') { return 'Start'; }

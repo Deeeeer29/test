@@ -26,7 +26,7 @@ export interface IAIAnswerService {
   generateAnswer(params: AnswerGenerationParams): Promise<AnswerBundle>;
   
   // 重新生成回答
-  regenerateAnswer(answerId: string): Promise<AnswerBundle>;
+  regenerateAnswer(answerId: string, tone?: AnswerTone, duration?: AnswerDurationMode): Promise<AnswerBundle>;
   
   // 修改回答时长
   changeAnswerDuration(answer: AnswerBundle, duration: AnswerDurationMode): AnswerBundle;

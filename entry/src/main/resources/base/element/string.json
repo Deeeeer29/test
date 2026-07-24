@@ -19,6 +19,14 @@
     {
       "name": "photo_permission_reason",
       "value": "用于从相册选择头像并上传到账号资料"
+    },
+    {
+      "name": "form_display_name",
+      "value": "今日会议"
+    },
+    {
+      "name": "form_description",
+      "value": "查看今日下一场会议"
     }
   ]
 }

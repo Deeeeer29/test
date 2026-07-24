@@ -9,8 +9,18 @@ export class MockAIAnswerService implements IAIAnswerService {
     return this.buildAnswer(params.meetingId, params.question, this.toDurationMode(params.duration), params.tone, false);
   }
 
-  async regenerateAnswer(answerId: string): Promise<AnswerBundle> {
-    return this.buildAnswer('product-review', 'Regenerated answer', '30s', 'professional', true);
+  async regenerateAnswer(
+    answerId: string,
+    tone?: AnswerTone,
+    duration?: AnswerDurationMode
+  ): Promise<AnswerBundle> {
+    return this.buildAnswer(
+      'product-review',
+      'Regenerated answer',
+      duration || '30s',
+      tone || 'professional',
+      true
+    );
   }
 
   generateMeetingSummary(meetingId: string): MeetingSummary {

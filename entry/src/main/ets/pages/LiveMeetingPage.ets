@@ -97,6 +97,9 @@ struct LiveMeetingPage {
   }
 
   aboutToDisappear(): void {
+    if (this.transcriptService) {
+      this.transcriptService.stopTranscription();
+    }
     this.clearTimers();
     this.clearLoadTimer();
   }
